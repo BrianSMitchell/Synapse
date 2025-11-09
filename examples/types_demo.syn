@@ -1,0 +1,7 @@
+let x = 5
+let y = 3.14
+let z = [1, 2, 3]
+
+print(x)
+print(y)
+print(z)

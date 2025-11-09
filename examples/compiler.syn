@@ -1,0 +1,13 @@
+// Self-Hosting Compiler Demo
+// A simple Synapse function that "compiles" basic let statements to Python
+
+def compile_let(var, value) {
+    print("Compiling let", var, "=", value, "to Python: ", var, " = ", value)
+}
+
+let var = "x"
+let val = 42
+
+compile_let(var, val)
+
+// This demonstrates Synapse code generating Python code

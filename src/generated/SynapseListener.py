@@ -44,6 +44,15 @@ class SynapseListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SynapseParser#tryStatement.
+    def enterTryStatement(self, ctx:SynapseParser.TryStatementContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#tryStatement.
+    def exitTryStatement(self, ctx:SynapseParser.TryStatementContext):
+        pass
+
+
     # Enter a parse tree produced by SynapseParser#paramList.
     def enterParamList(self, ctx:SynapseParser.ParamListContext):
         pass

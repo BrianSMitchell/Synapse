@@ -9,6 +9,7 @@ class SynapseInterpreter(SynapseListener):
     def __init__(self):
         self.variables = {}
         self.functions = {}
+        self.types = {}
         self.result = None
 
     def exitImportStatement(self, ctx):
@@ -32,6 +33,12 @@ class SynapseInterpreter(SynapseListener):
     def exitLetStatement(self, ctx):
         var_name = ctx.ID().getText()
         value = self.eval_expr(ctx.expr())
+        if ctx.TYPE():
+            expected_type = ctx.TYPE().getText()
+            actual_type = self.get_type(value)
+            if expected_type != actual_type:
+                print(f"Type mismatch: expected {expected_type}, got {actual_type}")
+            self.types[var_name] = expected_type
         self.variables[var_name] = value
 
     def exitAssignStatement(self, ctx):
@@ -48,9 +55,69 @@ class SynapseInterpreter(SynapseListener):
             for stmt in ctx.statement():
                 self.walk(stmt)  # Walk each statement in body
 
+    def exitTryStatement(self, ctx):
+        try:
+            # Execute try block
+            for stmt in ctx.statement(0):  # First statement list is try
+                self.walk(stmt)
+        except Exception as e:
+            # Catch: assign error to var
+            error_var = ctx.ID().getText()
+            self.variables[error_var] = str(e)
+            # Execute catch block
+            for stmt in ctx.statement(1):  # Second is catch
+                self.walk(stmt)
+
     def exitExprStatement(self, ctx):
         expr = ctx.expr()
         self.result = self.eval_expr(expr)
+
+    def eval_expr(self, expr_ctx):
+        text = expr_ctx.getText()
+        if expr_ctx.ID():
+            return self.variables.get(expr_ctx.ID().getText(), 0)
+        elif expr_ctx.NUMBER():
+            return float(expr_ctx.NUMBER().getText())
+        elif text.startswith('-') and text[1:].isdigit():
+            return -float(text[1:])
+        elif text.startswith('[') and text.endswith(']'):
+            # List
+            elements = [self.eval_expr(e) for e in expr_ctx.exprList().expr()]
+            return elements
+        elif text.count('(') == 1 and text.count(')') == 1 and not text.startswith('sample'):
+            # Function call: ID(exprList)
+            func_name = expr_ctx.ID().getText()
+            args = [self.eval_expr(e) for e in expr_ctx.exprList().expr()]
+            if func_name == 'print':
+                print(*args)
+                return None
+            elif func_name in self.functions:
+                func = self.functions[func_name]
+                # Create new scope? For simplicity, assign params to variables
+                old_vars = self.variables.copy()
+                for param, arg in zip(func['params'], args):
+                    self.variables[param] = arg
+                # Execute body
+                for stmt in func['body']:
+                    self.walk(stmt)
+                # Result is the last expr, but since functions return last, assume last statement sets result
+                result = self.result
+                self.variables = old_vars  # Restore
+                return result
+            else:
+                raise ValueError(f"Function {func_name} not defined")
+
+    def get_type(self, value):
+        if isinstance(value, int) or (isinstance(value, float) and value.is_integer()):
+            return 'int'
+        elif isinstance(value, float):
+            return 'float'
+        elif isinstance(value, list):
+            return 'list'
+        elif isinstance(value, str):
+            return 'string'
+        else:
+            return 'unknown'
 
     def eval_expr(self, expr_ctx):
         text = expr_ctx.getText()

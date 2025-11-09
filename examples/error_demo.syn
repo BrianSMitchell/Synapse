@@ -1,0 +1,10 @@
+let grid = [[1,2], [3,4]]
+
+try {
+    let x = grid[10][10]  // Index out of range
+} catch (err) {
+    print("Caught error:")
+    print(err)
+}
+
+print("Continuing after error")

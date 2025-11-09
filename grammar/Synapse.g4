@@ -2,15 +2,19 @@ grammar Synapse;
 
 program: statement* EOF ;
 
-statement: (importStatement | funcStatement | letStatement | assignStatement | forStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
+statement: (importStatement | funcStatement | tryStatement | letStatement | assignStatement | forStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
 
 importStatement: 'import' STRING ;
 
 funcStatement: 'def' ID '(' paramList? ')' '{' statement* '}' ;
 
+tryStatement: 'try' '{' statement* '}' 'catch' '(' ID ')' '{' statement* '}' ;
+
 paramList: ID (',' ID)* ;
 
-letStatement: 'let' ID '=' expr ;
+TYPE: 'int' | 'float' | 'list' | 'string' | ID ;
+
+letStatement: 'let' ID (':' TYPE)? '=' expr ;
 
 assignStatement: ID '=' expr ;
 
