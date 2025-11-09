@@ -46,10 +46,15 @@ import "examples/utils.syn"
 
 let grid = [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [0,1,1,1,0], [0,0,0,0,0]]
 
-print("Initial grid:")
-print_grid(grid)
+try {
+    print("Initial grid:")
+    print_grid(grid)
 
-let new_grid = update_grid(grid)
+    let new_grid = update_grid(grid)
 
-print("Next generation:")
-print_grid(new_grid)
+    print("Next generation:")
+    print_grid(new_grid)
+} catch (err) {
+    print("Error in Game of Life:")
+    print(err)
+}
