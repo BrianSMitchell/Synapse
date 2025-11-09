@@ -24,7 +24,7 @@ program: statement* EOF ;
 
 statement: (importStatement | funcStatement | tryStatement | letStatement | assignStatement | forStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
 
-importStatement: IMPORT STRING ;
+importStatement: IMPORT ID ;
 
 funcStatement: DEF ID '(' paramList? ')' '{' statement* '}' ;
 
@@ -36,7 +36,7 @@ TYPE: INT | FLOAT | LIST | STRING_TYPE ;
 
 letStatement: LET ID (':' TYPE)? '=' expr ;
 
-assignStatement: ID '=' expr ;
+assignStatement: expr '=' expr ;
 
 forStatement: FOR ID IN expr '{' statement* '}' ;
 
@@ -90,6 +90,6 @@ NOT: '!';  // If needed
 
 ID: [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER: [0-9]+ ('.' [0-9]+)? ;
-STRING: '"' .*? '"' ;
+STRING: '"' (~'"')* '"' ;
 
 WS: [ \t\r\n]+ -> skip ;

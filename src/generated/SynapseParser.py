@@ -49,7 +49,7 @@ def serializedATN():
         58,1,0,0,0,66,59,1,0,0,0,66,60,1,0,0,0,66,61,1,0,0,0,66,62,1,0,0,
         0,66,63,1,0,0,0,66,64,1,0,0,0,66,65,1,0,0,0,67,69,1,0,0,0,68,70,
         5,1,0,0,69,68,1,0,0,0,69,70,1,0,0,0,70,3,1,0,0,0,71,72,5,11,0,0,
-        72,73,5,43,0,0,73,5,1,0,0,0,74,75,5,12,0,0,75,76,5,41,0,0,76,78,
+        72,73,5,41,0,0,73,5,1,0,0,0,74,75,5,12,0,0,75,76,5,41,0,0,76,78,
         5,2,0,0,77,79,3,10,5,0,78,77,1,0,0,0,78,79,1,0,0,0,79,80,1,0,0,0,
         80,81,5,3,0,0,81,85,5,4,0,0,82,84,3,2,1,0,83,82,1,0,0,0,84,87,1,
         0,0,0,85,83,1,0,0,0,85,86,1,0,0,0,86,88,1,0,0,0,87,85,1,0,0,0,88,
@@ -63,9 +63,9 @@ def serializedATN():
         0,0,116,119,1,0,0,0,117,115,1,0,0,0,117,118,1,0,0,0,118,11,1,0,0,
         0,119,117,1,0,0,0,120,121,5,15,0,0,121,124,5,41,0,0,122,123,5,7,
         0,0,123,125,5,27,0,0,124,122,1,0,0,0,124,125,1,0,0,0,125,126,1,0,
-        0,0,126,127,5,8,0,0,127,128,3,28,14,0,128,13,1,0,0,0,129,130,5,41,
-        0,0,130,131,5,8,0,0,131,132,3,28,14,0,132,15,1,0,0,0,133,134,5,16,
-        0,0,134,135,5,41,0,0,135,136,5,17,0,0,136,137,3,28,14,0,137,141,
+        0,0,126,127,5,8,0,0,127,128,3,28,14,0,128,13,1,0,0,0,129,130,3,28,
+        14,0,130,131,5,8,0,0,131,132,3,28,14,0,132,15,1,0,0,0,133,134,5,
+        16,0,0,134,135,5,41,0,0,135,136,5,17,0,0,136,137,3,28,14,0,137,141,
         5,4,0,0,138,140,3,2,1,0,139,138,1,0,0,0,140,143,1,0,0,0,141,139,
         1,0,0,0,141,142,1,0,0,0,142,144,1,0,0,0,143,141,1,0,0,0,144,145,
         5,5,0,0,145,17,1,0,0,0,146,147,5,18,0,0,147,148,3,28,14,0,148,152,
@@ -437,8 +437,8 @@ class SynapseParser ( Parser ):
         def IMPORT(self):
             return self.getToken(SynapseParser.IMPORT, 0)
 
-        def STRING(self):
-            return self.getToken(SynapseParser.STRING, 0)
+        def ID(self):
+            return self.getToken(SynapseParser.ID, 0)
 
         def getRuleIndex(self):
             return SynapseParser.RULE_importStatement
@@ -463,7 +463,7 @@ class SynapseParser ( Parser ):
             self.state = 71
             self.match(SynapseParser.IMPORT)
             self.state = 72
-            self.match(SynapseParser.STRING)
+            self.match(SynapseParser.ID)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -780,11 +780,11 @@ class SynapseParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def ID(self):
-            return self.getToken(SynapseParser.ID, 0)
-
-        def expr(self):
-            return self.getTypedRuleContext(SynapseParser.ExprContext,0)
+        def expr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(SynapseParser.ExprContext)
+            else:
+                return self.getTypedRuleContext(SynapseParser.ExprContext,i)
 
 
         def getRuleIndex(self):
@@ -808,7 +808,7 @@ class SynapseParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 129
-            self.match(SynapseParser.ID)
+            self.expr()
             self.state = 130
             self.match(SynapseParser.T__7)
             self.state = 131

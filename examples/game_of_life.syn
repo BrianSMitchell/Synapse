@@ -37,7 +37,11 @@ def update_grid(grid) {
     new_grid
 }
 
-import "examples/utils.syn"
+def print_grid(grid) {
+    for row in grid {
+        print(row)
+    }
+}
 
 let grid = [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [0,1,1,1,0], [0,0,0,0,0]]
 
