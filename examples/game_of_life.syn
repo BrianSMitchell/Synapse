@@ -1,0 +1,57 @@
+def count_neighbors(grid, x, y) {
+    let count = 0
+    let dxs = [-1, 0, 1]
+    for dx in dxs {
+        let dys = [-1, 0, 1]
+        for dy in dys {
+            let skip = dx == 0 and dy == 0
+            if skip {
+            } else {
+                let nx = x + dx
+                let ny = y + dy
+                let valid = nx >= 0 and nx < 5 and ny >= 0 and ny < 5
+                if valid {
+                    count = count + grid[nx][ny]
+                }
+            }
+        }
+    }
+    count
+}
+
+def update_grid(grid) {
+    let new_grid = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
+    let indices = [0,1,2,3,4]
+    for i in indices {
+        for j in indices {
+            let neighbors = count_neighbors(grid, i, j)
+            let is_alive = grid[i][j] == 1
+            if is_alive {
+                let survives = neighbors == 2 or neighbors == 3
+                if survives {
+                    new_grid[i][j] = 1
+                }
+            } else {
+                let born = neighbors == 3
+                if born {
+                    new_grid[i][j] = 1
+                }
+            }
+        }
+    }
+    new_grid
+}
+
+let grid = [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [0,1,1,1,0], [0,0,0,0,0]]
+
+print("Initial grid:")
+for row in grid {
+    print(row)
+}
+
+let new_grid = update_grid(grid)
+
+print("Next generation:")
+for row in new_grid {
+    print(row)
+}

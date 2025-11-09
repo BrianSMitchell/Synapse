@@ -26,6 +26,24 @@ class SynapseListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SynapseParser#funcStatement.
+    def enterFuncStatement(self, ctx:SynapseParser.FuncStatementContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#funcStatement.
+    def exitFuncStatement(self, ctx:SynapseParser.FuncStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#paramList.
+    def enterParamList(self, ctx:SynapseParser.ParamListContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#paramList.
+    def exitParamList(self, ctx:SynapseParser.ParamListContext):
+        pass
+
+
     # Enter a parse tree produced by SynapseParser#letStatement.
     def enterLetStatement(self, ctx:SynapseParser.LetStatementContext):
         pass
@@ -41,6 +59,15 @@ class SynapseListener(ParseTreeListener):
 
     # Exit a parse tree produced by SynapseParser#assignStatement.
     def exitAssignStatement(self, ctx:SynapseParser.AssignStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#forStatement.
+    def enterForStatement(self, ctx:SynapseParser.ForStatementContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#forStatement.
+    def exitForStatement(self, ctx:SynapseParser.ForStatementContext):
         pass
 
 

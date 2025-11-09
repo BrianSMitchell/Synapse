@@ -99,6 +99,9 @@ Synapse adopts a hybrid approach for rapid development and scalable deployment:
 
 This balances AI-driven innovation with production efficiency, prioritizing LLVM for native speed in agent swarms.
 
+#### MVP Milestone: Conway's Game of Life
+To validate Synapse as a complete AI programming language, the MVP will implement Conway's Game of Life—a complex emergent system requiring loops, functions, data structures, and iterative updates. This demonstrates Synapse's capability for real-world AI applications like simulations, RL environments, and self-evolving algorithms.
+
 ---
 
 High-Level Diagram (Conceptual):  
