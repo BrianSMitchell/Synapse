@@ -1,0 +1,4 @@
+antlr4-python3-runtime==4.13.1
+numpy==1.26.4
+sympy==1.12
+torch==2.8.0
