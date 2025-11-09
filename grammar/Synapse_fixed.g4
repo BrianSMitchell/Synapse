@@ -28,8 +28,6 @@ importStatement: IMPORT STRING ;
 
 funcStatement: DEF ID '(' paramList? ')' '{' statement* '}' ;
 
-tryStatement: TRY '{' statement* '}' CATCH '(' ID ')' '{' statement* '}' ;
-
 paramList: ID (',' ID)* ;
 
 TYPE: INT | FLOAT | LIST | STRING_TYPE ;

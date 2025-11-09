@@ -4,13 +4,11 @@ def count_neighbors(grid, x, y) {
     for dx in dxs {
         let dys = [-1, 0, 1]
         for dy in dys {
-            let skip = dx == 0 and dy == 0
-            if skip {
+            if dx == 0 and dy == 0 {
             } else {
                 let nx = x + dx
                 let ny = y + dy
-                let valid = nx >= 0 and nx < 5 and ny >= 0 and ny < 5
-                if valid {
+                if nx >= 0 and nx < 5 and ny >= 0 and ny < 5 {
                     count = count + grid[nx][ny]
                 }
             }
@@ -25,15 +23,12 @@ def update_grid(grid) {
     for i in indices {
         for j in indices {
             let neighbors = count_neighbors(grid, i, j)
-            let is_alive = grid[i][j] == 1
-            if is_alive {
-                let survives = neighbors == 2 or neighbors == 3
-                if survives {
+            if grid[i][j] == 1 {
+                if neighbors == 2 or neighbors == 3 {
                     new_grid[i][j] = 1
                 }
             } else {
-                let born = neighbors == 3
-                if born {
+                if neighbors == 3 {
                     new_grid[i][j] = 1
                 }
             }

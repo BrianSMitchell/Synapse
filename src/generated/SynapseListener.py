@@ -125,24 +125,6 @@ class SynapseListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by SynapseParser#distribution.
-    def enterDistribution(self, ctx:SynapseParser.DistributionContext):
-        pass
-
-    # Exit a parse tree produced by SynapseParser#distribution.
-    def exitDistribution(self, ctx:SynapseParser.DistributionContext):
-        pass
-
-
-    # Enter a parse tree produced by SynapseParser#exprList.
-    def enterExprList(self, ctx:SynapseParser.ExprListContext):
-        pass
-
-    # Exit a parse tree produced by SynapseParser#exprList.
-    def exitExprList(self, ctx:SynapseParser.ExprListContext):
-        pass
-
-
     # Enter a parse tree produced by SynapseParser#rule.
     def enterRule(self, ctx:SynapseParser.RuleContext):
         pass
@@ -158,6 +140,87 @@ class SynapseListener(ParseTreeListener):
 
     # Exit a parse tree produced by SynapseParser#expr.
     def exitExpr(self, ctx:SynapseParser.ExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#orExpr.
+    def enterOrExpr(self, ctx:SynapseParser.OrExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#orExpr.
+    def exitOrExpr(self, ctx:SynapseParser.OrExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#andExpr.
+    def enterAndExpr(self, ctx:SynapseParser.AndExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#andExpr.
+    def exitAndExpr(self, ctx:SynapseParser.AndExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#eqExpr.
+    def enterEqExpr(self, ctx:SynapseParser.EqExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#eqExpr.
+    def exitEqExpr(self, ctx:SynapseParser.EqExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#relExpr.
+    def enterRelExpr(self, ctx:SynapseParser.RelExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#relExpr.
+    def exitRelExpr(self, ctx:SynapseParser.RelExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#addExpr.
+    def enterAddExpr(self, ctx:SynapseParser.AddExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#addExpr.
+    def exitAddExpr(self, ctx:SynapseParser.AddExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#mulExpr.
+    def enterMulExpr(self, ctx:SynapseParser.MulExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#mulExpr.
+    def exitMulExpr(self, ctx:SynapseParser.MulExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#unaryExpr.
+    def enterUnaryExpr(self, ctx:SynapseParser.UnaryExprContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#unaryExpr.
+    def exitUnaryExpr(self, ctx:SynapseParser.UnaryExprContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#primary.
+    def enterPrimary(self, ctx:SynapseParser.PrimaryContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#primary.
+    def exitPrimary(self, ctx:SynapseParser.PrimaryContext):
+        pass
+
+
+    # Enter a parse tree produced by SynapseParser#exprList.
+    def enterExprList(self, ctx:SynapseParser.ExprListContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#exprList.
+    def exitExprList(self, ctx:SynapseParser.ExprListContext):
         pass
 
 
