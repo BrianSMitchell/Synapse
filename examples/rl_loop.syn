@@ -1,10 +1,11 @@
-let epsilon = bernoulli(0.1)
-let reward = bernoulli(0.9)
+let epsilon = 0.1
+let reward_history = [0.5, 0.7, 0.9]
+let avg_reward = 0.7
 
 morph rl_agent {
-    if sample(reward) > 0 {
-        epsilon = bernoulli(0.15)
+    if avg_reward < 0.8 {
+        epsilon = epsilon + 0.05
     }
 }
 
-sample(epsilon)
+epsilon

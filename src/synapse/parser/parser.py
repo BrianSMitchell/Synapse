@@ -11,16 +11,13 @@ class SynapseInterpreter(SynapseListener):
 
     def exitLetStatement(self, ctx):
         var_name = ctx.ID().getText()
-        dist_name = ctx.distribution().getText()
-        params = [float(p.getText()) for p in ctx.exprList().expr()]
-        if dist_name == 'normal':
-            dist = normal(params[0], params[1])
-        elif dist_name == 'bernoulli':
-            dist = bernoulli(params[0])
-        # Add more
-        else:
-            dist = uniform(params[0], params[1])  # default
-        self.variables[var_name] = dist
+        value = self.eval_expr(ctx.expr())
+        self.variables[var_name] = value
+
+    def exitAssignStatement(self, ctx):
+        var_name = ctx.ID().getText()
+        value = self.eval_expr(ctx.expr())
+        self.variables[var_name] = value
 
     def exitExprStatement(self, ctx):
         expr = ctx.expr()
@@ -32,6 +29,10 @@ class SynapseInterpreter(SynapseListener):
             return self.variables.get(expr_ctx.ID().getText(), 0)
         elif expr_ctx.NUMBER():
             return float(expr_ctx.NUMBER().getText())
+        elif text.startswith('[') and text.endswith(']'):
+            # List
+            elements = [self.eval_expr(e) for e in expr_ctx.exprList().expr()]
+            return elements
         elif 'sample(' in text:
             var_name = expr_ctx.expr(0).ID().getText()
             dist = self.variables[var_name]
@@ -40,6 +41,18 @@ class SynapseInterpreter(SynapseListener):
             left = self.eval_expr(expr_ctx.expr(0))
             right = self.eval_expr(expr_ctx.expr(1))
             return left > right
+        elif '<' in text:
+            left = self.eval_expr(expr_ctx.expr(0))
+            right = self.eval_expr(expr_ctx.expr(1))
+            return left < right
+        elif '==' in text:
+            left = self.eval_expr(expr_ctx.expr(0))
+            right = self.eval_expr(expr_ctx.expr(1))
+            return left == right
+        elif '+' in text:
+            left = self.eval_expr(expr_ctx.expr(0))
+            right = self.eval_expr(expr_ctx.expr(1))
+            return left + right
         # Add more ops
         return 0
 

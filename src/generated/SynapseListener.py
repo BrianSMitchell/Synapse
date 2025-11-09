@@ -35,6 +35,15 @@ class SynapseListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SynapseParser#assignStatement.
+    def enterAssignStatement(self, ctx:SynapseParser.AssignStatementContext):
+        pass
+
+    # Exit a parse tree produced by SynapseParser#assignStatement.
+    def exitAssignStatement(self, ctx:SynapseParser.AssignStatementContext):
+        pass
+
+
     # Enter a parse tree produced by SynapseParser#ifStatement.
     def enterIfStatement(self, ctx:SynapseParser.IfStatementContext):
         pass

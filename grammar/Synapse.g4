@@ -2,9 +2,11 @@ grammar Synapse;
 
 program: statement* EOF ;
 
-statement: (letStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
+statement: (letStatement | assignStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
 
-letStatement: 'let' ID '=' distribution '(' exprList ')' ;
+letStatement: 'let' ID '=' expr ;
+
+assignStatement: ID '=' expr ;
 
 ifStatement: 'if' expr '{' statement* '}' ('else' '{' statement* '}')? ;
 
@@ -23,11 +25,14 @@ rule: 'if' expr '{' statement* '}' ;
 expr: ID
     | NUMBER
     | STRING
+    | '[' exprList ']'
     | expr '+' expr
     | expr '-' expr
     | expr '*' expr
     | expr '/' expr
     | expr '>' expr
+    | expr '<' expr
+    | expr '==' expr
     | '(' expr ')'
     | 'sample' '(' expr ')'
     ;
