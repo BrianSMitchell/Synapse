@@ -1,0 +1,6 @@
+import "examples/utils.syn"
+
+let grid = [[1,0], [0,1]]
+
+print("Grid:")
+print_grid(grid)

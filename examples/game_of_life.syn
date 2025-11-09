@@ -42,16 +42,14 @@ def update_grid(grid) {
     new_grid
 }
 
+import "examples/utils.syn"
+
 let grid = [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [0,1,1,1,0], [0,0,0,0,0]]
 
 print("Initial grid:")
-for row in grid {
-    print(row)
-}
+print_grid(grid)
 
 let new_grid = update_grid(grid)
 
 print("Next generation:")
-for row in new_grid {
-    print(row)
-}
+print_grid(new_grid)

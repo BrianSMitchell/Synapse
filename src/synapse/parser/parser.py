@@ -3,12 +3,25 @@ from generated.SynapseLexer import SynapseLexer
 from generated.SynapseParser import SynapseParser
 from generated.SynapseListener import SynapseListener
 from synapse.core.distributions import normal, bernoulli, uniform
+from synapse.core.ast_tools import parse_code
 
 class SynapseInterpreter(SynapseListener):
     def __init__(self):
         self.variables = {}
         self.functions = {}
         self.result = None
+
+    def exitImportStatement(self, ctx):
+        file_path = ctx.STRING().getText().strip('"')
+        try:
+            with open(file_path, 'r') as f:
+                imported_code = f.read()
+            # Parse and execute in the same context
+            imported_tree = parse_code(imported_code)
+            walker = ParseTreeWalker()
+            walker.walk(self, imported_tree)
+        except Exception as e:
+            print(f"Import error: {e}")
 
     def exitFuncStatement(self, ctx):
         func_name = ctx.ID().getText()

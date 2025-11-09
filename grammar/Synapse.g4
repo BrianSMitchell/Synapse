@@ -2,7 +2,9 @@ grammar Synapse;
 
 program: statement* EOF ;
 
-statement: (funcStatement | letStatement | assignStatement | forStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
+statement: (importStatement | funcStatement | letStatement | assignStatement | forStatement | ifStatement | morphStatement | goalStatement | exprStatement) ';'? ;
+
+importStatement: 'import' STRING ;
 
 funcStatement: 'def' ID '(' paramList? ')' '{' statement* '}' ;
 
