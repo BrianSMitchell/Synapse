@@ -44,35 +44,43 @@ class SynapseInterpreter(SynapseListener):
             self.variables[var_name] = value
         elif '[' in str(expr_ctx) and ']' in str(expr_ctx):
             # Array indexing
-            array_expr = expr_ctx.expr(0)
-            index_expr = expr_ctx.expr(1)
-            array = self.eval_expr(array_expr)
-            index = int(self.eval_expr(index_expr))
-            array[index] = value
+            if hasattr(expr_ctx, 'expr'):
+                array_expr = expr_ctx.expr(0)
+                index_expr = expr_ctx.expr(1)
+                array = self.eval_expr(array_expr)
+                index = int(self.eval_expr(index_expr))
+                array[index] = value
         else:
             print("Assignment not supported for this expression")
 
     def exitForStatement(self, ctx):
-        var_name = ctx.ID().getText()
-        iterable = self.eval_expr(ctx.expr())
-        for item in iterable:
-            self.variables[var_name] = item
-            # Execute body
-            for stmt in ctx.statement():
-                self.walk(stmt)  # Walk each statement in body
+        if hasattr(ctx, 'ID') and hasattr(ctx, 'expr') and hasattr(ctx, 'statement') and ctx.statement() and ctx.expr():
+            var_name = ctx.ID().getText()
+            iterable = self.eval_expr(ctx.expr())
+            if iterable is not None:
+                for item in iterable:
+                    self.variables[var_name] = item
+                    # Execute body
+                    for stmt in ctx.statement():
+                        self.walk(stmt)  # Walk each statement in body
 
     def exitTryStatement(self, ctx):
-        try:
-            # Execute try block
-            for stmt in ctx.statement(0):  # First statement list is try
-                self.walk(stmt)
-        except Exception as e:
-            # Catch: assign error to var
-            error_var = ctx.ID().getText()
-            self.variables[error_var] = str(e)
-            # Execute catch block
-            for stmt in ctx.statement(1):  # Second is catch
-                self.walk(stmt)
+        if hasattr(ctx, 'statement') and hasattr(ctx, 'ID') and ctx.statement():
+            try:
+                # Execute try block
+                try_stmts = ctx.statement(0)
+                if try_stmts:
+                    for stmt in try_stmts:
+                        self.walk(stmt)
+            except Exception as e:
+                # Catch: assign error to var
+                error_var = ctx.ID().getText()
+                self.variables[error_var] = str(e)
+                # Execute catch block
+                catch_stmts = ctx.statement(1)
+                if catch_stmts:
+                    for stmt in catch_stmts:
+                        self.walk(stmt)
 
     def exitExprStatement(self, ctx):
         expr = ctx.expr()
