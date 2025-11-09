@@ -87,6 +87,20 @@ Synapse reimagines programming as a synaptic network: fluid, self-organizing, an
 - **Extensibility:** Plugin system for domain libs (e.g., `synapse-physics` for astropy integration).  
 - **Bootstrap:** Prototype in Python 3.12 (leverage Torch/SymPy); evolve to self-hosted compiler.  
 
+---
+
+## Hybrid Evolution Strategy
+
+Synapse adopts a hybrid approach for rapid development and scalable deployment:
+
+- **Interpreted Phase (MVP):** Hosted in Python for quick prototyping. Leverages existing ecosystems (PyTorch, NumPy) for ML primitives. Enables fast iteration on emergent features like morphing and agent consensus.
+
+- **Compiled Phase (v1.0+):** Transpiles to LLVM for native binaries (10-50x performance gain) or WASM for browser/edge. Self-hosting compiler written in Synapse for infinite evolution.
+
+This balances AI-driven innovation with production efficiency, prioritizing LLVM for native speed in agent swarms.
+
+---
+
 High-Level Diagram (Conceptual):  
 ```
 [AI Input: Goals/Hypotheses] → [Synapse Parser] → [Probabilistic VM] → [Morph Engine] → [Agent Swarm] → [Output: Emergent Solutions]

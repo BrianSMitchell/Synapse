@@ -16,6 +16,7 @@ setup(
     entry_points={
         "console_scripts": [
             "synapse=synapse.repl:main",
+            "synapse-run=synapse.runner:main",
         ],
     },
 )
