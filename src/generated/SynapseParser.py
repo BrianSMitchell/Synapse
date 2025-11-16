@@ -97,21 +97,21 @@ def serializedATN():
         7,3,0,0,239,241,3,42,21,0,240,238,1,0,0,0,241,244,1,0,0,0,242,240,
         1,0,0,0,242,243,1,0,0,0,243,41,1,0,0,0,244,242,1,0,0,0,245,247,7,
         4,0,0,246,245,1,0,0,0,246,247,1,0,0,0,247,248,1,0,0,0,248,249,3,
-        44,22,0,249,43,1,0,0,0,250,251,6,22,-1,0,251,273,5,41,0,0,252,273,
-        5,42,0,0,253,273,5,43,0,0,254,255,5,9,0,0,255,256,3,46,23,0,256,
-        257,5,10,0,0,257,273,1,0,0,0,258,259,5,41,0,0,259,260,5,2,0,0,260,
-        261,3,46,23,0,261,262,5,3,0,0,262,273,1,0,0,0,263,264,5,2,0,0,264,
-        265,3,28,14,0,265,266,5,3,0,0,266,273,1,0,0,0,267,268,5,22,0,0,268,
-        269,5,2,0,0,269,270,3,28,14,0,270,271,5,3,0,0,271,273,1,0,0,0,272,
-        250,1,0,0,0,272,252,1,0,0,0,272,253,1,0,0,0,272,254,1,0,0,0,272,
-        258,1,0,0,0,272,263,1,0,0,0,272,267,1,0,0,0,273,281,1,0,0,0,274,
-        275,10,3,0,0,275,276,5,9,0,0,276,277,3,28,14,0,277,278,5,10,0,0,
-        278,280,1,0,0,0,279,274,1,0,0,0,280,283,1,0,0,0,281,279,1,0,0,0,
-        281,282,1,0,0,0,282,45,1,0,0,0,283,281,1,0,0,0,284,289,3,28,14,0,
-        285,286,5,6,0,0,286,288,3,28,14,0,287,285,1,0,0,0,288,291,1,0,0,
-        0,289,287,1,0,0,0,289,290,1,0,0,0,290,47,1,0,0,0,291,289,1,0,0,0,
-        25,51,66,69,78,85,95,107,117,124,141,152,161,165,173,190,202,210,
-        218,226,234,242,246,272,281,289
+        44,22,0,249,43,1,0,0,0,250,251,6,22,-1,0,251,252,5,41,0,0,252,253,
+        5,2,0,0,253,254,3,46,23,0,254,255,5,3,0,0,255,273,1,0,0,0,256,257,
+        5,22,0,0,257,258,5,2,0,0,258,259,3,28,14,0,259,260,5,3,0,0,260,273,
+        1,0,0,0,261,273,5,41,0,0,262,273,5,42,0,0,263,273,5,43,0,0,264,265,
+        5,9,0,0,265,266,3,46,23,0,266,267,5,10,0,0,267,273,1,0,0,0,268,269,
+        5,2,0,0,269,270,3,28,14,0,270,271,5,3,0,0,271,273,1,0,0,0,272,250,
+        1,0,0,0,272,256,1,0,0,0,272,261,1,0,0,0,272,262,1,0,0,0,272,263,
+        1,0,0,0,272,264,1,0,0,0,272,268,1,0,0,0,273,281,1,0,0,0,274,275,
+        10,2,0,0,275,276,5,9,0,0,276,277,3,28,14,0,277,278,5,10,0,0,278,
+        280,1,0,0,0,279,274,1,0,0,0,280,283,1,0,0,0,281,279,1,0,0,0,281,
+        282,1,0,0,0,282,45,1,0,0,0,283,281,1,0,0,0,284,289,3,28,14,0,285,
+        286,5,6,0,0,286,288,3,28,14,0,287,285,1,0,0,0,288,291,1,0,0,0,289,
+        287,1,0,0,0,289,290,1,0,0,0,290,47,1,0,0,0,291,289,1,0,0,0,25,51,
+        66,69,78,85,95,107,117,124,141,152,161,165,173,190,202,210,218,226,
+        234,242,246,272,281,289
     ]
 
 class SynapseParser ( Parser ):
@@ -257,6 +257,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitProgram" ):
                 listener.exitProgram(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgram" ):
+                return visitor.visitProgram(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -345,6 +351,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStatement" ):
                 listener.exitStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -451,6 +463,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitImportStatement" ):
                 listener.exitImportStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitImportStatement" ):
+                return visitor.visitImportStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -507,6 +525,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFuncStatement" ):
                 listener.exitFuncStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFuncStatement" ):
+                return visitor.visitFuncStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -591,6 +615,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitTryStatement" ):
                 listener.exitTryStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTryStatement" ):
+                return visitor.visitTryStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -672,6 +702,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitParamList" ):
                 listener.exitParamList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParamList" ):
+                return visitor.visitParamList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -736,6 +772,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitLetStatement" ):
                 listener.exitLetStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLetStatement" ):
+                return visitor.visitLetStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -798,6 +840,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitAssignStatement" ):
                 listener.exitAssignStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignStatement" ):
+                return visitor.visitAssignStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -859,6 +907,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitForStatement" ):
                 listener.exitForStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForStatement" ):
+                return visitor.visitForStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -935,6 +989,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIfStatement" ):
                 listener.exitIfStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfStatement" ):
+                return visitor.visitIfStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1026,6 +1086,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitMorphStatement" ):
                 listener.exitMorphStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMorphStatement" ):
+                return visitor.visitMorphStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1088,6 +1154,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitGoalStatement" ):
                 listener.exitGoalStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGoalStatement" ):
+                return visitor.visitGoalStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1133,6 +1205,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExprStatement" ):
                 listener.exitExprStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprStatement" ):
+                return visitor.visitExprStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1185,6 +1263,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitRule" ):
                 listener.exitRule(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRule" ):
+                return visitor.visitRule(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1245,6 +1329,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitExpr" ):
                 listener.exitExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpr" ):
+                return visitor.visitExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1295,6 +1385,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitOrExpr" ):
                 listener.exitOrExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOrExpr" ):
+                return visitor.visitOrExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1359,6 +1455,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAndExpr" ):
                 listener.exitAndExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAndExpr" ):
+                return visitor.visitAndExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1429,6 +1531,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEqExpr" ):
                 listener.exitEqExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEqExpr" ):
+                return visitor.visitEqExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1517,6 +1625,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitRelExpr" ):
                 listener.exitRelExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelExpr" ):
+                return visitor.visitRelExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1591,6 +1705,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAddExpr" ):
                 listener.exitAddExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAddExpr" ):
+                return visitor.visitAddExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1668,6 +1788,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitMulExpr" ):
                 listener.exitMulExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMulExpr" ):
+                return visitor.visitMulExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1734,6 +1860,12 @@ class SynapseParser ( Parser ):
             if hasattr( listener, "exitUnaryExpr" ):
                 listener.exitUnaryExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnaryExpr" ):
+                return visitor.visitUnaryExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1778,22 +1910,22 @@ class SynapseParser ( Parser ):
         def ID(self):
             return self.getToken(SynapseParser.ID, 0)
 
-        def NUMBER(self):
-            return self.getToken(SynapseParser.NUMBER, 0)
-
-        def STRING(self):
-            return self.getToken(SynapseParser.STRING, 0)
-
         def exprList(self):
             return self.getTypedRuleContext(SynapseParser.ExprListContext,0)
 
+
+        def SAMPLE(self):
+            return self.getToken(SynapseParser.SAMPLE, 0)
 
         def expr(self):
             return self.getTypedRuleContext(SynapseParser.ExprContext,0)
 
 
-        def SAMPLE(self):
-            return self.getToken(SynapseParser.SAMPLE, 0)
+        def NUMBER(self):
+            return self.getToken(SynapseParser.NUMBER, 0)
+
+        def STRING(self):
+            return self.getToken(SynapseParser.STRING, 0)
 
         def primary(self):
             return self.getTypedRuleContext(SynapseParser.PrimaryContext,0)
@@ -1809,6 +1941,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrimary" ):
                 listener.exitPrimary(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimary" ):
+                return visitor.visitPrimary(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1827,50 +1965,50 @@ class SynapseParser ( Parser ):
             if la_ == 1:
                 self.state = 251
                 self.match(SynapseParser.ID)
+                self.state = 252
+                self.match(SynapseParser.T__1)
+                self.state = 253
+                self.exprList()
+                self.state = 254
+                self.match(SynapseParser.T__2)
                 pass
 
             elif la_ == 2:
-                self.state = 252
-                self.match(SynapseParser.NUMBER)
+                self.state = 256
+                self.match(SynapseParser.SAMPLE)
+                self.state = 257
+                self.match(SynapseParser.T__1)
+                self.state = 258
+                self.expr()
+                self.state = 259
+                self.match(SynapseParser.T__2)
                 pass
 
             elif la_ == 3:
-                self.state = 253
-                self.match(SynapseParser.STRING)
+                self.state = 261
+                self.match(SynapseParser.ID)
                 pass
 
             elif la_ == 4:
-                self.state = 254
-                self.match(SynapseParser.T__8)
-                self.state = 255
-                self.exprList()
-                self.state = 256
-                self.match(SynapseParser.T__9)
+                self.state = 262
+                self.match(SynapseParser.NUMBER)
                 pass
 
             elif la_ == 5:
-                self.state = 258
-                self.match(SynapseParser.ID)
-                self.state = 259
-                self.match(SynapseParser.T__1)
-                self.state = 260
-                self.exprList()
-                self.state = 261
-                self.match(SynapseParser.T__2)
+                self.state = 263
+                self.match(SynapseParser.STRING)
                 pass
 
             elif la_ == 6:
-                self.state = 263
-                self.match(SynapseParser.T__1)
                 self.state = 264
-                self.expr()
+                self.match(SynapseParser.T__8)
                 self.state = 265
-                self.match(SynapseParser.T__2)
+                self.exprList()
+                self.state = 266
+                self.match(SynapseParser.T__9)
                 pass
 
             elif la_ == 7:
-                self.state = 267
-                self.match(SynapseParser.SAMPLE)
                 self.state = 268
                 self.match(SynapseParser.T__1)
                 self.state = 269
@@ -1892,9 +2030,9 @@ class SynapseParser ( Parser ):
                     localctx = SynapseParser.PrimaryContext(self, _parentctx, _parentState)
                     self.pushNewRecursionContext(localctx, _startState, self.RULE_primary)
                     self.state = 274
-                    if not self.precpred(self._ctx, 3):
+                    if not self.precpred(self._ctx, 2):
                         from antlr4.error.Errors import FailedPredicateException
-                        raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
+                        raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                     self.state = 275
                     self.match(SynapseParser.T__8)
                     self.state = 276
@@ -1938,6 +2076,12 @@ class SynapseParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExprList" ):
                 listener.exitExprList(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprList" ):
+                return visitor.visitExprList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1985,7 +2129,7 @@ class SynapseParser ( Parser ):
 
     def primary_sempred(self, localctx:PrimaryContext, predIndex:int):
             if predIndex == 0:
-                return self.precpred(self._ctx, 3)
+                return self.precpred(self._ctx, 2)
          
 
 

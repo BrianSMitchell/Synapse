@@ -11,6 +11,11 @@ class SynapseInterpreter(SynapseListener):
         self.functions = {}
         self.types = {}
         self.result = None
+        self.walker = ParseTreeWalker()  # For walking subtrees
+
+    def walk(self, ctx):
+        """Walk a subtree"""
+        self.walker.walk(self, ctx)
 
     # def exitImportStatement(self, ctx):
     #     pass  # Placeholder
@@ -64,6 +69,20 @@ class SynapseInterpreter(SynapseListener):
                     for stmt in ctx.statement():
                         self.walk(stmt)  # Walk each statement in body
 
+    def exitIfStatement(self, ctx):
+        if hasattr(ctx, 'expr') and ctx.expr():
+            condition = self.eval_expr(ctx.expr())
+            if condition:
+                # Execute then block
+                if hasattr(ctx, 'statement') and ctx.statement():
+                    for stmt in ctx.statement():
+                        self.walk(stmt)
+            else:
+                # Execute else block if present (second statement block)
+                if hasattr(ctx, 'statement') and len(ctx.statement()) > 1:
+                    for stmt in ctx.statement()[1:]:
+                        self.walk(stmt)
+
     def exitTryStatement(self, ctx):
         if hasattr(ctx, 'statement') and hasattr(ctx, 'ID') and ctx.statement():
             try:
@@ -87,41 +106,185 @@ class SynapseInterpreter(SynapseListener):
         self.result = self.eval_expr(expr)
 
     def eval_expr(self, expr_ctx):
-        text = expr_ctx.getText()
-        if hasattr(expr_ctx, 'ID') and expr_ctx.ID():
-            return self.variables.get(expr_ctx.ID().getText(), 0)
-        elif hasattr(expr_ctx, 'NUMBER') and expr_ctx.NUMBER():
-            return float(expr_ctx.NUMBER().getText())
-        elif text.startswith('-') and text[1:].isdigit():
-            return -float(text[1:])
-        elif text.startswith('[') and text.endswith(']'):
-            # List
-            if hasattr(expr_ctx, 'exprList'):
-                elements = [self.eval_expr(e) for e in expr_ctx.exprList().expr()]
-                return elements
-        elif text.count('(') == 1 and text.count(')') == 1 and not text.startswith('sample'):
-            # Function call: ID(exprList)
-            if hasattr(expr_ctx, 'ID') and hasattr(expr_ctx, 'exprList'):
-                func_name = expr_ctx.ID().getText()
-                args = [self.eval_expr(e) for e in expr_ctx.exprList().expr()]
-                if func_name == 'print':
-                    print(*args)
-                    return None
-                elif func_name in self.functions:
-                    func = self.functions[func_name]
-                    # Create new scope? For simplicity, assign params to variables
-                    old_vars = self.variables.copy()
-                    for param, arg in zip(func['params'], args):
-                        self.variables[param] = arg
-                    # Execute body
-                    for stmt in func['body']:
-                        self.walk(stmt)
-                    # Result is the last expr, but since functions return last, assume last statement sets result
-                    result = self.result
-                    self.variables = old_vars  # Restore
-                    return result
+        # Handle relExpr with binary operators
+        if hasattr(expr_ctx, 'relExpr'):
+            rel_exprs = expr_ctx.relExpr()
+            if rel_exprs:
+                if isinstance(rel_exprs, list) and len(rel_exprs) >= 2:
+                    # Binary operator: evaluate left and right
+                    left = self.eval_expr(rel_exprs[0])
+                    # Get the operator
+                    if hasattr(expr_ctx, 'GREATER') and expr_ctx.GREATER():
+                        right = self.eval_expr(rel_exprs[1])
+                        return left > right
+                    elif hasattr(expr_ctx, 'LESS') and expr_ctx.LESS():
+                        right = self.eval_expr(rel_exprs[1])
+                        return left < right
+                    elif hasattr(expr_ctx, 'GREATER_EQUAL') and expr_ctx.GREATER_EQUAL():
+                        right = self.eval_expr(rel_exprs[1])
+                        return left >= right
+                    elif hasattr(expr_ctx, 'LESS_EQUAL') and expr_ctx.LESS_EQUAL():
+                        right = self.eval_expr(rel_exprs[1])
+                        return left <= right
+                    else:
+                        return left
                 else:
-                    raise ValueError(f"Function {func_name} not defined")
+                    rel_expr = rel_exprs[0] if isinstance(rel_exprs, list) else rel_exprs
+                    return self.eval_expr(rel_expr)
+        
+        # Navigate through operator precedence hierarchy
+        if hasattr(expr_ctx, 'orExpr'):
+            or_exprs = expr_ctx.orExpr()
+            if or_exprs:
+                if isinstance(or_exprs, list) and len(or_exprs) > 0:
+                    or_expr = or_exprs[0]
+                else:
+                    or_expr = or_exprs
+                return self.eval_expr(or_expr)
+        
+        if hasattr(expr_ctx, 'andExpr'):
+            and_exprs = expr_ctx.andExpr()
+            if and_exprs:
+                if isinstance(and_exprs, list) and len(and_exprs) > 0:
+                    and_expr = and_exprs[0]
+                else:
+                    and_expr = and_exprs
+                return self.eval_expr(and_expr)
+        
+        if hasattr(expr_ctx, 'eqExpr'):
+            eq_exprs = expr_ctx.eqExpr()
+            if eq_exprs:
+                if isinstance(eq_exprs, list) and len(eq_exprs) > 0:
+                    eq_expr = eq_exprs[0]
+                else:
+                    eq_expr = eq_exprs
+                return self.eval_expr(eq_expr)
+        
+        if hasattr(expr_ctx, 'addExpr'):
+            add_exprs = expr_ctx.addExpr()
+            if add_exprs:
+                if isinstance(add_exprs, list) and len(add_exprs) > 0:
+                    add_expr = add_exprs[0]
+                else:
+                    add_expr = add_exprs
+                return self.eval_expr(add_expr)
+        
+        if hasattr(expr_ctx, 'mulExpr'):
+            mul_exprs = expr_ctx.mulExpr()
+            if mul_exprs:
+                if isinstance(mul_exprs, list) and len(mul_exprs) > 0:
+                    mul_expr = mul_exprs[0]
+                else:
+                    mul_expr = mul_exprs
+                return self.eval_expr(mul_expr)
+        
+        if hasattr(expr_ctx, 'unaryExpr'):
+            unary_exprs = expr_ctx.unaryExpr()
+            if unary_exprs:
+                if isinstance(unary_exprs, list) and len(unary_exprs) > 0:
+                    unary_expr = unary_exprs[0]
+                else:
+                    unary_expr = unary_exprs
+                return self.eval_expr(unary_expr)
+        
+        if hasattr(expr_ctx, 'primary'):
+            primary = expr_ctx.primary()
+            if primary:
+                return self.eval_primary(primary)
+        
+        # Fallback
+        text = expr_ctx.getText()
+        if text.isdigit():
+            return float(text)
+        return self.variables.get(text, 0)
+
+    def eval_primary(self, primary_ctx):
+        """Evaluate a primary expression"""
+        text = primary_ctx.getText()
+        
+        # ID (variable reference)
+        if primary_ctx.ID():
+            var_name = primary_ctx.ID().getText()
+            # Could be a function call: ID(exprList)
+            if primary_ctx.exprList():
+                # Function call
+                args = [self.eval_expr(e) for e in primary_ctx.exprList().expr()]
+                return self.call_function(var_name, args)
+            else:
+                # Variable reference
+                return self.variables.get(var_name, 0)
+        
+        # NUMBER
+        elif primary_ctx.NUMBER():
+            return float(primary_ctx.NUMBER().getText())
+        
+        # STRING
+        elif primary_ctx.STRING():
+            return primary_ctx.STRING().getText().strip('"')
+        
+        # List: [exprList]
+        elif text.startswith('[') and text.endswith(']'):
+            if primary_ctx.exprList():
+                elements = [self.eval_expr(e) for e in primary_ctx.exprList().expr()]
+                return elements
+            return []
+        
+        # SAMPLE '(' expr ')'
+        elif text.startswith('sample(') and hasattr(primary_ctx, 'expr'):
+            expr = primary_ctx.expr()
+            if expr:
+                dist = self.eval_expr(expr)
+                if hasattr(dist, 'sample'):
+                    return dist.sample()
+                else:
+                    raise ValueError("sample() requires a distribution argument")
+        
+        # Parenthesized expression: (expr)
+        elif text.startswith('(') and text.endswith(')'):
+            if primary_ctx.expr():
+                return self.eval_expr(primary_ctx.expr())
+        
+        # Array access: primary[expr]
+        elif '[' in text and ']' in text and hasattr(primary_ctx, 'primary'):
+            array_expr = primary_ctx.primary()
+            if array_expr:
+                array = self.eval_primary(array_expr)
+                expr = primary_ctx.expr()
+                if expr:
+                    index = int(self.eval_expr(expr))
+                    return array[index]
+        
+        return 0
+
+    def call_function(self, func_name, args):
+        """Call a function (built-in or user-defined)"""
+        if func_name == 'print':
+            print(*args)
+            return None
+        elif func_name == 'sample':
+            if len(args) > 0 and hasattr(args[0], 'sample'):
+                return args[0].sample()
+            else:
+                raise ValueError("sample() requires a distribution argument")
+        elif func_name == 'normal':
+            return normal(*args)
+        elif func_name == 'bernoulli':
+            return bernoulli(*args)
+        elif func_name == 'uniform':
+            return uniform(*args)
+        elif func_name in self.functions:
+            func = self.functions[func_name]
+            old_vars = self.variables.copy()
+            for param, arg in zip(func['params'], args):
+                self.variables[param] = arg
+            # Execute body
+            for stmt in func['body']:
+                self.walk(stmt)
+            result = self.result
+            self.variables = old_vars
+            return result
+        else:
+            raise ValueError(f"Function {func_name} not defined")
 
     def get_type(self, value):
         if isinstance(value, int) or (isinstance(value, float) and value.is_integer()):

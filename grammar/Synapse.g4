@@ -62,14 +62,14 @@ mulExpr: unaryExpr ((MULT | DIV) unaryExpr)* ;
 
 unaryExpr: (MINUS | NOT)? primary ;
 
-primary: ID
+primary: ID '(' exprList ')'
+       | SAMPLE '(' expr ')'
+       | ID
        | NUMBER
        | STRING
        | '[' exprList ']'
-       | ID '(' exprList ')'
        | primary '[' expr ']'
        | '(' expr ')'
-       | SAMPLE '(' expr ')'
        ;
 
 exprList: expr (',' expr)* ;
