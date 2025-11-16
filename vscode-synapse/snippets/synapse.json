@@ -1,0 +1,104 @@
+{
+  "Function Definition": {
+    "prefix": "def",
+    "body": [
+      "def ${1:function_name}(${2:params}) {",
+      "\t${3}",
+      "}"
+    ],
+    "description": "Define a function"
+  },
+  "Let Variable": {
+    "prefix": "let",
+    "body": [
+      "let ${1:variable} = ${2:value}"
+    ],
+    "description": "Declare a variable"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "\t${2}",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ifelse",
+    "body": [
+      "if ${1:condition} {",
+      "\t${2}",
+      "} else {",
+      "\t${3}",
+      "}"
+    ],
+    "description": "If-else statement"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:list} {",
+      "\t${3}",
+      "}"
+    ],
+    "description": "For loop"
+  },
+  "Try-Catch": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1}",
+      "} catch (${2:err}) {",
+      "\t${3}",
+      "}"
+    ],
+    "description": "Try-catch block"
+  },
+  "Goal Declaration": {
+    "prefix": "goal",
+    "body": [
+      "goal: ${1:expression}"
+    ],
+    "description": "Declare a goal"
+  },
+  "Morph Block": {
+    "prefix": "morph",
+    "body": [
+      "morph ${1:function_name} {",
+      "\tif ${2:condition} {",
+      "\t\t${3}",
+      "\t}",
+      "}"
+    ],
+    "description": "Morphing/self-modification block"
+  },
+  "Print Statement": {
+    "prefix": "print",
+    "body": [
+      "print(${1:expression})"
+    ],
+    "description": "Print to output"
+  },
+  "List Literal": {
+    "prefix": "[",
+    "body": [
+      "[${1:elements}]"
+    ],
+    "description": "List literal"
+  },
+  "Sample from Distribution": {
+    "prefix": "sample",
+    "body": [
+      "sample(${1:distribution})"
+    ],
+    "description": "Sample from a probability distribution"
+  },
+  "Import Statement": {
+    "prefix": "import",
+    "body": [
+      "import \"${1:module.syn}\""
+    ],
+    "description": "Import another Synapse module"
+  }
+}

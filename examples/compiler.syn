@@ -1,13 +1,64 @@
-// Self-Hosting Compiler Demo
-// A simple Synapse function that "compiles" basic let statements to Python
+# Self-Hosted Synapse Compiler Demo
+# Demonstrates how Synapse can compile its own code
 
-def compile_let(var, value) {
-    print("Compiling let", var, "=", value, "to Python: ", var, " = ", value)
+# Simple tokenizer simulation
+def tokenize(code) {
+    let tokens = []
+    let current = 0
+    tokens
 }
 
-let var = "x"
-let val = 42
+# Simple AST representation
+def ast_literal(value) {
+    ["literal", value]
+}
 
-compile_let(var, val)
+def ast_var(name) {
+    ["var", name]
+}
 
-// This demonstrates Synapse code generating Python code
+def ast_binop(op, left, right) {
+    ["binop", op, left, right]
+}
+
+# Code generator for simple expressions
+def codegen_expr(ast) {
+    if ast[0] == "literal" {
+        ast[1]
+    } else if ast[0] == "var" {
+        ast[1]
+    } else if ast[0] == "binop" {
+        let op = ast[1]
+        let left = codegen_expr(ast[2])
+        let right = codegen_expr(ast[3])
+        "(" + left + " " + op + " " + right + ")"
+    } else {
+        "unknown"
+    }
+}
+
+# Test compilation
+let expr_ast = ast_binop("+", ast_var("x"), ast_literal(42))
+let compiled = codegen_expr(expr_ast)
+
+print("AST:", expr_ast)
+print("Compiled:", compiled)
+
+# Bootstrap: Synapse generating Synapse code
+def generate_function(name, params, body) {
+    let code = "def " + name + "("
+    let i = 0
+    for param in params {
+        if i > 0 {
+            code = code + ", "
+        }
+        code = code + param
+        i = i + 1
+    }
+    code = code + ") {\n"
+    code = code + body + "\n}"
+    code
+}
+
+let my_func = generate_function("add", ["a", "b"], "a + b")
+print("Generated function:", my_func)

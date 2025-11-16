@@ -1,0 +1,151 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Synapse",
+  "scopeName": "source.synapse",
+  "fileTypes": [
+    "syn"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#brackets"
+    },
+    {
+      "include": "#identifiers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.synapse",
+          "match": "//.*?$"
+        },
+        {
+          "name": "comment.block.synapse",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.synapse",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.synapse",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.synapse",
+          "match": "\\b(if|else|for|in|while|try|catch|def|import)\\b"
+        },
+        {
+          "name": "keyword.other.synapse",
+          "match": "\\b(let|morph|goal|sample)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.synapse",
+          "match": "\\b(int|float|list|string)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "meta.function.synapse",
+          "match": "\\b(print|len|range|sum|max|min|sample)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.synapse",
+          "match": "-?\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.synapse",
+          "match": "-?\\b\\d+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.synapse",
+          "match": "[+\\-*/%]"
+        },
+        {
+          "name": "keyword.operator.comparison.synapse",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.logical.synapse",
+          "match": "\\b(and|or|not)\\b"
+        },
+        {
+          "name": "keyword.operator.assignment.synapse",
+          "match": "="
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "name": "meta.brace.round.synapse",
+          "match": "[()]"
+        },
+        {
+          "name": "meta.brace.square.synapse",
+          "match": "[\\[\\]]"
+        },
+        {
+          "name": "meta.brace.curly.synapse",
+          "match": "[{}]"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.synapse",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

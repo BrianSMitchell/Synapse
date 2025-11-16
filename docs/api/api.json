@@ -1,0 +1,1333 @@
+{
+  "generated": "2025-11-16T09:11:29.426024",
+  "modules": [
+    {
+      "name": "agents",
+      "description": "SYNAPSE-AGENTS: Standard Library Module for Multi-Agent Systems\nAgent framework for building distributed, cooperative, and emergent systems\nFeatures: agent creation, task scheduling, consensus, communication\nVersion: 1.0\nAGENT DATA STRUCTURES",
+      "functions": [
+        {
+          "name": "create_agent",
+          "description": "",
+          "parameters": [
+            {
+              "name": "id",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "capacity",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 13
+        },
+        {
+          "name": "agent_get",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 19
+        },
+        {
+          "name": "agent_set",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 37
+        },
+        {
+          "name": "submit_task",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "task_id",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "task_data",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 67
+        },
+        {
+          "name": "get_pending_tasks",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 74
+        },
+        {
+          "name": "complete_task",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "task_id",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 79
+        },
+        {
+          "name": "has_capacity",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 99
+        },
+        {
+          "name": "create_agent_pool",
+          "description": "",
+          "parameters": [
+            {
+              "name": "count",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 121
+        },
+        {
+          "name": "find_available_agent",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agents",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 133
+        },
+        {
+          "name": "distribute_task",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agents",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "task_id",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "task_data",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 150
+        },
+        {
+          "name": "agent_load",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 161
+        },
+        {
+          "name": "balance_tasks",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agents",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 178
+        },
+        {
+          "name": "consensus_majority",
+          "description": "",
+          "parameters": [
+            {
+              "name": "votes",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 206
+        },
+        {
+          "name": "consensus_weighted",
+          "description": "",
+          "parameters": [
+            {
+              "name": "votes",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "weights",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 263
+        },
+        {
+          "name": "create_message",
+          "description": "",
+          "parameters": [
+            {
+              "name": "sender_id",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "receiver_id",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "content",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 328
+        },
+        {
+          "name": "send_message",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agents",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "message",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 333
+        },
+        {
+          "name": "agent_state_set",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 374
+        },
+        {
+          "name": "agent_state_get",
+          "description": "",
+          "parameters": [
+            {
+              "name": "agent",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\agents.syn",
+          "line_number": 401
+        }
+      ],
+      "tags": [],
+      "file_path": "stdlib\\agents.syn",
+      "version": "1.0"
+    },
+    {
+      "name": "math",
+      "description": "SYNAPSE-MATH: Standard Library Module for Numerical Computing\nNumPy-like array operations for mathematical computation in Synapse\nFeatures: array creation, basic operations, linear algebra, aggregations\nVersion: 1.0\nARRAY CREATION FUNCTIONS",
+      "functions": [
+        {
+          "name": "zeros",
+          "description": "",
+          "parameters": [
+            {
+              "name": "n",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 13
+        },
+        {
+          "name": "ones",
+          "description": "",
+          "parameters": [
+            {
+              "name": "n",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 24
+        },
+        {
+          "name": "arange",
+          "description": "",
+          "parameters": [
+            {
+              "name": "start",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "step",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 35
+        },
+        {
+          "name": "linspace",
+          "description": "",
+          "parameters": [
+            {
+              "name": "start",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 46
+        },
+        {
+          "name": "eye",
+          "description": "",
+          "parameters": [
+            {
+              "name": "n",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 65
+        },
+        {
+          "name": "shape",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 91
+        },
+        {
+          "name": "flatten",
+          "description": "",
+          "parameters": [
+            {
+              "name": "matrix",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 126
+        },
+        {
+          "name": "reshape",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "shape_tuple",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 151
+        },
+        {
+          "name": "transpose",
+          "description": "",
+          "parameters": [
+            {
+              "name": "matrix",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 181
+        },
+        {
+          "name": "sum",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 206
+        },
+        {
+          "name": "mean",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 222
+        },
+        {
+          "name": "min",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 243
+        },
+        {
+          "name": "max",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 261
+        },
+        {
+          "name": "std",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 279
+        },
+        {
+          "name": "add",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr1",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "arr2",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 308
+        },
+        {
+          "name": "multiply",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr1",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "arr2",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 325
+        },
+        {
+          "name": "scale",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "factor",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 342
+        },
+        {
+          "name": "dot",
+          "description": "",
+          "parameters": [
+            {
+              "name": "vec1",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "vec2",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 362
+        },
+        {
+          "name": "matmul",
+          "description": "",
+          "parameters": [
+            {
+              "name": "mat1",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "mat2",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 379
+        },
+        {
+          "name": "norm",
+          "description": "",
+          "parameters": [
+            {
+              "name": "vec",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 408
+        },
+        {
+          "name": "append",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 428
+        },
+        {
+          "name": "insert",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "idx",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 433
+        },
+        {
+          "name": "reverse",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 455
+        },
+        {
+          "name": "clip",
+          "description": "",
+          "parameters": [
+            {
+              "name": "arr",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "min_val",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "max_val",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\math.syn",
+          "line_number": 471
+        }
+      ],
+      "tags": [],
+      "file_path": "stdlib\\math.syn",
+      "version": "1.0"
+    },
+    {
+      "name": "ml",
+      "description": "SYNAPSE-ML: Standard Library Module for Machine Learning\nML helpers for classification, regression, and probabilistic modeling\nFeatures: model creation, training, inference, evaluation metrics\nVersion: 1.0\nMODEL STRUCTURE AND INITIALIZATION",
+      "functions": [
+        {
+          "name": "create_model",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model_type",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "input_dim",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "output_dim",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 13
+        },
+        {
+          "name": "model_get",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 20
+        },
+        {
+          "name": "model_set",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 38
+        },
+        {
+          "name": "init_weights",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 64
+        },
+        {
+          "name": "linear_predict",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 90
+        },
+        {
+          "name": "linear_mse_loss",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 123
+        },
+        {
+          "name": "sigmoid",
+          "description": "",
+          "parameters": [
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 152
+        },
+        {
+          "name": "logistic_predict",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 165
+        },
+        {
+          "name": "logistic_loss",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 171
+        },
+        {
+          "name": "relu",
+          "description": "",
+          "parameters": [
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 210
+        },
+        {
+          "name": "relu_derivative",
+          "description": "",
+          "parameters": [
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 219
+        },
+        {
+          "name": "tanh_approx",
+          "description": "",
+          "parameters": [
+            {
+              "name": "x",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 228
+        },
+        {
+          "name": "softmax",
+          "description": "",
+          "parameters": [
+            {
+              "name": "logits",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 247
+        },
+        {
+          "name": "accuracy",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 308
+        },
+        {
+          "name": "precision",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 341
+        },
+        {
+          "name": "recall",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 375
+        },
+        {
+          "name": "f1_score",
+          "description": "",
+          "parameters": [
+            {
+              "name": "y_true",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_pred",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 409
+        },
+        {
+          "name": "gradient_descent_step",
+          "description": "",
+          "parameters": [
+            {
+              "name": "model",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "x_batch",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "y_batch",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "loss_fn",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 425
+        },
+        {
+          "name": "create_batches",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "type_hint": "",
+              "description": ""
+            },
+            {
+              "name": "batch_size",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 474
+        },
+        {
+          "name": "shuffle_data",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "type_hint": "",
+              "description": ""
+            }
+          ],
+          "return_type": "",
+          "return_description": "",
+          "examples": [],
+          "tags": [],
+          "source_file": "stdlib\\ml.syn",
+          "line_number": 502
+        }
+      ],
+      "tags": [],
+      "file_path": "stdlib\\ml.syn",
+      "version": "1.0"
+    }
+  ],
+  "total_functions": 62,
+  "total_modules": 3
+}

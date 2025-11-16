@@ -1,0 +1,496 @@
+// ============================================================================
+// SYNAPSE-MATH: Standard Library Module for Numerical Computing
+// ============================================================================
+// NumPy-like array operations for mathematical computation in Synapse
+// Features: array creation, basic operations, linear algebra, aggregations
+// Version: 1.0
+// ============================================================================
+
+// ============================================================================
+// ARRAY CREATION FUNCTIONS
+// ============================================================================
+
+def zeros(n) {
+    // Create an array of n zeros
+    let arr = []
+    let i = 0
+    while i < n {
+        arr = arr + [0]
+        i = i + 1
+    }
+    arr
+}
+
+def ones(n) {
+    // Create an array of n ones
+    let arr = []
+    let i = 0
+    while i < n {
+        arr = arr + [1]
+        i = i + 1
+    }
+    arr
+}
+
+def arange(start, end, step) {
+    // Create array from start to end (exclusive) with given step
+    let arr = []
+    let i = start
+    while i < end {
+        arr = arr + [i]
+        i = i + step
+    }
+    arr
+}
+
+def linspace(start, end, count) {
+    // Create array with count evenly spaced values from start to end
+    if count <= 0 {
+        []
+    } else if count == 1 {
+        [start]
+    } else {
+        let step = (end - start) / (count - 1)
+        let arr = []
+        let i = 0
+        while i < count {
+            let val = start + i * step
+            arr = arr + [val]
+            i = i + 1
+        }
+        arr
+    }
+}
+
+def eye(n) {
+    // Create nxn identity matrix
+    let matrix = []
+    let i = 0
+    while i < n {
+        let row = zeros(n)
+        let inner_copy = []
+        let j = 0
+        while j < n {
+            let val = 0
+            if i == j {
+                val = 1
+            }
+            inner_copy = inner_copy + [val]
+            j = j + 1
+        }
+        matrix = matrix + [inner_copy]
+        i = i + 1
+    }
+    matrix
+}
+
+// ============================================================================
+// ARRAY OPERATIONS
+// ============================================================================
+
+def shape(arr) {
+    // Get shape (size) of array - returns array of dimensions
+    // For 1D: [length], for 2D: [rows, cols]
+    let len = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            len = len + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    // Check if 2D (nested array)
+    try {
+        let first_elem = arr[0]
+        let first_len = 0
+        let j = 0
+        while j < 99999 {
+            try {
+                let elem = first_elem[j]
+                first_len = first_len + 1
+                j = j + 1
+            } catch (e) {
+                j = 99999
+            }
+        }
+        [len, first_len]
+    } catch (e) {
+        [len]
+    }
+}
+
+def flatten(matrix) {
+    // Flatten 2D array to 1D array
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let row = matrix[i]
+            let j = 0
+            while j < 99999 {
+                try {
+                    let elem = row[j]
+                    result = result + [elem]
+                    j = j + 1
+                } catch (e) {
+                    j = 99999
+                }
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+def reshape(arr, shape_tuple) {
+    // Reshape 1D array to 2D array with given dimensions
+    // shape_tuple: [rows, cols]
+    let flat = arr
+    try {
+        // Try to flatten if already nested
+        flat = flatten(arr)
+    } catch (e) {
+        flat = arr
+    }
+    
+    let rows = shape_tuple[0]
+    let cols = shape_tuple[1]
+    let matrix = []
+    let idx = 0
+    let i = 0
+    while i < rows {
+        let row = []
+        let j = 0
+        while j < cols {
+            row = row + [flat[idx]]
+            idx = idx + 1
+            j = j + 1
+        }
+        matrix = matrix + [row]
+        i = i + 1
+    }
+    matrix
+}
+
+def transpose(matrix) {
+    // Transpose 2D array (swap rows and columns)
+    let dims = shape(matrix)
+    let rows = dims[0]
+    let cols = dims[1]
+    
+    let result = []
+    let j = 0
+    while j < cols {
+        let col = []
+        let i = 0
+        while i < rows {
+            col = col + [matrix[i][j]]
+            i = i + 1
+        }
+        result = result + [col]
+        j = j + 1
+    }
+    result
+}
+
+// ============================================================================
+// AGGREGATION FUNCTIONS
+// ============================================================================
+
+def sum(arr) {
+    // Sum all elements in array
+    let total = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            total = total + elem
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    total
+}
+
+def mean(arr) {
+    // Calculate mean (average) of array
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            count = count + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if count == 0 {
+        0
+    } else {
+        sum(arr) / count
+    }
+}
+
+def min(arr) {
+    // Find minimum value in array
+    let min_val = arr[0]
+    let i = 1
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            if elem < min_val {
+                min_val = elem
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    min_val
+}
+
+def max(arr) {
+    // Find maximum value in array
+    let max_val = arr[0]
+    let i = 1
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            if elem > max_val {
+                max_val = elem
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    max_val
+}
+
+def std(arr) {
+    // Calculate standard deviation
+    let avg = mean(arr)
+    let sum_sq_diff = 0
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            let diff = elem - avg
+            sum_sq_diff = sum_sq_diff + diff * diff
+            count = count + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if count <= 1 {
+        0
+    } else {
+        (sum_sq_diff / (count - 1))
+    }
+}
+
+// ============================================================================
+// ELEMENT-WISE OPERATIONS
+// ============================================================================
+
+def add(arr1, arr2) {
+    // Element-wise addition
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let e1 = arr1[i]
+            let e2 = arr2[i]
+            result = result + [e1 + e2]
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+def multiply(arr1, arr2) {
+    // Element-wise multiplication
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let e1 = arr1[i]
+            let e2 = arr2[i]
+            result = result + [e1 * e2]
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+def scale(arr, factor) {
+    // Multiply all elements by scalar
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            result = result + [elem * factor]
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+// ============================================================================
+// LINEAR ALGEBRA OPERATIONS
+// ============================================================================
+
+def dot(vec1, vec2) {
+    // Dot product of two vectors
+    let result = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let e1 = vec1[i]
+            let e2 = vec2[i]
+            result = result + e1 * e2
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+def matmul(mat1, mat2) {
+    // Matrix multiplication
+    let dims1 = shape(mat1)
+    let dims2 = shape(mat2)
+    let m = dims1[0]
+    let n = dims1[1]
+    let p = dims2[1]
+    
+    let result = []
+    let i = 0
+    while i < m {
+        let row = []
+        let j = 0
+        while j < p {
+            let sum = 0
+            let k = 0
+            while k < n {
+                sum = sum + mat1[i][k] * mat2[k][j]
+                k = k + 1
+            }
+            row = row + [sum]
+            j = j + 1
+        }
+        result = result + [row]
+        i = i + 1
+    }
+    result
+}
+
+def norm(vec) {
+    // Calculate Euclidean norm (length) of vector
+    let sum_sq = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = vec[i]
+            sum_sq = sum_sq + elem * elem
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    (sum_sq)
+}
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+def append(arr, value) {
+    // Add element to end of array
+    arr + [value]
+}
+
+def insert(arr, idx, value) {
+    // Insert value at index (creates new array)
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            if i == idx {
+                result = result + [value]
+            }
+            let elem = arr[i]
+            result = result + [elem]
+            i = i + 1
+        } catch (e) {
+            if i == idx {
+                result = result + [value]
+            }
+            i = 99999
+        }
+    }
+    result
+}
+
+def reverse(arr) {
+    // Reverse array
+    let result = []
+    let i = 99999
+    while i >= 0 {
+        try {
+            let elem = arr[i]
+            result = result + [elem]
+            i = i - 1
+        } catch (e) {
+            i = -1
+        }
+    }
+    result
+}
+
+def clip(arr, min_val, max_val) {
+    // Clip array values to [min_val, max_val]
+    let result = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let elem = arr[i]
+            let clamped = elem
+            if clamped < min_val {
+                clamped = min_val
+            }
+            if clamped > max_val {
+                clamped = max_val
+            }
+            result = result + [clamped]
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+// ============================================================================
+// END SYNAPSE-MATH
+// ============================================================================

@@ -112,16 +112,68 @@ High-Level Diagram (Conceptual):
 
 ---
 
-## Roadmap
+## Roadmap (Phases 1-20)
 
+### Initial Roadmap (Original PRD Target)
 | Phase | Timeline | Milestones | Dependencies |
 |-------|----------|------------|--------------|
-| **Prototype** | Months 1-3 | MVP interpreter; basic features tested on Grok sims. | xAI compute allocation (10 A100s). |
-| **Alpha** | Months 4-6 | Full MVP; integrate with grok.com API; agent benchmarks. | Engineering hires (2 lang devs). |
-| **Beta** | Months 7-9 | Open-source; ecosystem libs; X app embedding. | Community beta testers. |
-| **GA** | Month 10+ | Production rollout; premium tiers (e.g., SuperGrok Synapse access). | Metrics validation. |
+| **Prototype (Ph1-12)** | Months 1-3 | MVP interpreter; basic features tested on Grok sims. | xAI compute allocation (10 A100s). |
+| **Alpha (Ph13-14)** | Months 4-6 | Full MVP; integrate with grok.com API; agent benchmarks. | Engineering hires (2 lang devs). |
+| **Beta (Ph15)** | Months 7-9 | Open-source; ecosystem libs; X app embedding. | Community beta testers. |
+| **GA (Ph16)** | Month 10+ | Production rollout; premium tiers (e.g., SuperGrok Synapse access). | Metrics validation. |
 
-Total Budget: $2M (mostly compute/talent); 4-person core team.
+### Extended Roadmap (Post-MVP Evolution)
+| Phase | Focus | Key Milestones | Timeline |
+|-------|-------|----------------|----------|
+| **Phase 16** | Advanced AI Integration | LLM codegen, emergent debugging, distributed training, self-optimization | Months 10-15 |
+| **Phase 17** | Production Hardening | Telemetry, security, error recovery, profiling dashboard | Months 15-18 |
+| **Phase 18** | Open-Source Ecosystem | GitHub release, marketplace, community libs, sponsorships | Months 18-20 |
+| **Phase 19** | Interop & Formalization | FFI, formal verification, dependent types, C interop | Months 20-24 |
+| **Phase 20** | Self-Improvement | Emergence metrics, language evolution, AI-assisted design, model fine-tuning | Months 24+ |
+
+### Phase Grouping by Focus Area
+**Foundation (Ph1-12):** Core language, probabilistic ops, morphing, agents, ML bridge, goals  
+**Production (Ph13-16):** Stability, compiler, ecosystem tooling, AI integration  
+**Enterprise (Ph17-19):** Hardening, community, interop, formal guarantees  
+**Evolution (Ph20+):** Self-improving language, emergence, next-gen AI capabilities  
+
+Total Budget (MVP): $2M (mostly compute/talent); 4-person core team.  
+Extended Timeline: 24+ months to full emergence-capable system.
+
+---
+
+## Complete Phase Breakdown (1-20)
+
+### Foundation Phases (1-12): Core Language & Features
+Implement probabilistic semantics, morphing engine, agent primitives, ML bridge, and goal-driven execution. Achieve MVP with Conway's Game of Life demo.
+
+### Hardening Phase (13): Edge Case & Stability
+Fix 2D arrays, scoping, error messages. Comprehensive testing and benchmarking.
+
+### Compiler Phase (14): Production-Ready Backend
+Self-hosted compiler, LLVM JIT (10-20x speedup), bytecode VM, incremental compilation, optimizations.
+
+### Ecosystem Phase (15): Developer Tools
+VS Code extension, standard library (math/agents/ML), package manager & registry, REPL enhancements, documentation generator.
+
+### Advanced AI Phase (16): Intelligence Integration
+- **16.1:** LLM-Assisted Code Generation ✅ COMPLETE
+- **16.2:** Emergent Debugging with AI (AI analyzes morphing-induced bugs)
+- **16.3:** Distributed Agent Training (Multi-machine learning 10+ agents)
+- **16.4:** AI-Powered Optimization (ML learns code patterns, 80%+ improvement)
+- **16.5:** Self-Improving Language Evolution (Morphs its own grammar)
+
+### Production Hardening Phase (17): Enterprise-Ready
+Runtime telemetry & metrics, security/sandboxing (prevent infinite morphs, taint tracking), error recovery/graceful degradation, profiling & performance dashboards.
+
+### Community Phase (18): Open-Source & Growth
+Public GitHub release with governance, marketplace expansion (VS Code → official), community stdlib extensions (physics, crypto, NLP, robotics), sponsorship/funding models.
+
+### Interop Phase (19): Enterprise Integration
+Foreign Function Interface (Python/Rust/JS/C), formal verification (Coq/Lean proofs), type system refinements (dependent types), native C performance interop.
+
+### Evolution Phase (20): True Emergence
+Emergence quantification (novelty/convergence metrics), language self-evolution (grammar morphing via community votes), AI-assisted language design (ML predicts beneficial mutations), foundation model fine-tuning (custom Grok integration).
 
 ---
 

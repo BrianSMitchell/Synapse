@@ -1,0 +1,129 @@
+{
+  "name": "synapse",
+  "displayName": "Synapse Language Support",
+  "description": "Language support for Synapse - AI-Driven Programming Language",
+  "version": "0.1.0",
+  "publisher": "BrianSMitchell",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers"
+  ],
+  "keywords": [
+    "synapse",
+    "ai",
+    "probabilistic",
+    "language"
+  ],
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrianSMitchell/Synapse"
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "synapse",
+        "aliases": [
+          "Synapse",
+          "synapse"
+        ],
+        "extensions": [
+          ".syn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "synapse",
+        "scopeName": "source.synapse",
+        "path": "./syntaxes/synapse.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "synapse.runFile",
+        "title": "Synapse: Run File",
+        "when": "resourceExtname == .syn"
+      },
+      {
+        "command": "synapse.runSelection",
+        "title": "Synapse: Run Selection",
+        "when": "editorHasSelection && editorLangId == synapse"
+      },
+      {
+        "command": "synapse.openREPL",
+        "title": "Synapse: Open REPL"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "synapse.runFile",
+        "key": "ctrl+shift+e",
+        "when": "resourceExtname == .syn"
+      },
+      {
+        "command": "synapse.openREPL",
+        "key": "ctrl+shift+`",
+        "when": "editorLangId == synapse"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "synapse",
+        "path": "./snippets/synapse.json"
+      }
+    ],
+    "configuration": {
+      "title": "Synapse",
+      "properties": {
+        "synapse.synapseExecutablePath": {
+          "type": "string",
+          "default": "synapse",
+          "description": "Path to the synapse executable"
+        },
+        "synapse.pythonPath": {
+          "type": "string",
+          "description": "Path to Python interpreter for running Synapse"
+        },
+        "synapse.enableAutocomplete": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable autocomplete suggestions"
+        },
+        "synapse.enableDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time error diagnostics"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.0"
+  },
+  "dependencies": {}
+}

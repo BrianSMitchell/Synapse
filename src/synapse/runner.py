@@ -1,4 +1,5 @@
 import sys
+import traceback
 from synapse.parser.parser import parse_and_execute
 
 def main():
@@ -15,6 +16,7 @@ def main():
             print(result)
     except Exception as e:
         print(f"Error: {e}")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()

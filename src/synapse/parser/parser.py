@@ -12,6 +12,7 @@ class SynapseInterpreter(SynapseListener):
         self.types = {}
         self.result = None
         self.walker = ParseTreeWalker()  # For walking subtrees
+        self.in_function_def = False  # Flag to skip walking function bodies during definition
 
     def walk(self, ctx):
         """Walk a subtree"""
@@ -25,6 +26,7 @@ class SynapseInterpreter(SynapseListener):
         params = [p.getText() for p in ctx.paramList().ID()] if ctx.paramList() else []
         body = ctx.statement()  # List of statements
         self.functions[func_name] = {'params': params, 'body': body}
+        # Note: Don't walk the function body - it will be walked when the function is called
 
     def exitLetStatement(self, ctx):
         var_name = ctx.ID().getText()
@@ -62,12 +64,18 @@ class SynapseInterpreter(SynapseListener):
         if hasattr(ctx, 'ID') and hasattr(ctx, 'expr') and hasattr(ctx, 'statement') and ctx.statement() and ctx.expr():
             var_name = ctx.ID().getText()
             iterable = self.eval_expr(ctx.expr())
+            print(f"DEBUG: exitForStatement: var_name={var_name}, iterable={iterable}")
             if iterable is not None:
                 for item in iterable:
                     self.variables[var_name] = item
                     # Execute body
-                    for stmt in ctx.statement():
-                        self.walk(stmt)  # Walk each statement in body
+                    body_stmts = ctx.statement()
+                    # Handle both list and single statement
+                    if isinstance(body_stmts, list):
+                        for stmt in body_stmts:
+                            self.walk(stmt)
+                    else:
+                        self.walk(body_stmts)
 
     def exitIfStatement(self, ctx):
         if hasattr(ctx, 'expr') and ctx.expr():
@@ -87,19 +95,27 @@ class SynapseInterpreter(SynapseListener):
         if hasattr(ctx, 'statement') and hasattr(ctx, 'ID') and ctx.statement():
             try:
                 # Execute try block
-                try_stmts = ctx.statement(0)
+                try_stmts = ctx.statement(0) if len(ctx.statement()) > 0 else None
                 if try_stmts:
-                    for stmt in try_stmts:
-                        self.walk(stmt)
+                    # Handle both list and single statement
+                    if isinstance(try_stmts, list):
+                        for stmt in try_stmts:
+                            self.walk(stmt)
+                    else:
+                        self.walk(try_stmts)
             except Exception as e:
                 # Catch: assign error to var
                 error_var = ctx.ID().getText()
                 self.variables[error_var] = str(e)
                 # Execute catch block
-                catch_stmts = ctx.statement(1)
+                catch_stmts = ctx.statement(1) if len(ctx.statement()) > 1 else None
                 if catch_stmts:
-                    for stmt in catch_stmts:
-                        self.walk(stmt)
+                    # Handle both list and single statement
+                    if isinstance(catch_stmts, list):
+                        for stmt in catch_stmts:
+                            self.walk(stmt)
+                    else:
+                        self.walk(catch_stmts)
 
     def exitExprStatement(self, ctx):
         expr = ctx.expr()
@@ -201,7 +217,7 @@ class SynapseInterpreter(SynapseListener):
     def eval_primary(self, primary_ctx):
         """Evaluate a primary expression"""
         text = primary_ctx.getText()
-        print(f"DEBUG eval_primary called with text='{text[:50]}'...")
+        # print(f"DEBUG eval_primary called with text='{text[:50]}'...")
         
         # ID (variable reference)
         if primary_ctx.ID():
@@ -213,7 +229,8 @@ class SynapseInterpreter(SynapseListener):
                 return self.call_function(var_name, args)
             else:
                 # Variable reference
-                return self.variables.get(var_name, 0)
+                val = self.variables.get(var_name, 0)
+                return val
         
         # NUMBER
         elif primary_ctx.NUMBER():
@@ -267,13 +284,9 @@ class SynapseInterpreter(SynapseListener):
             current_text = current.getText() if hasattr(current, 'getText') else str(current)
             has_id = hasattr(current, 'ID')
             id_result = current.ID() if has_id else None
-            # DEBUG
-            print(f"DEBUG eval_primary: current_text='{current_text}', has_id={has_id}, id_result={id_result}, bool(id_result)={bool(id_result) if id_result else 'None'}")
             if has_id and id_result:
-                print(f"DEBUG: Entered ID branch")
                 var_name = id_result.getText()
                 base = self.variables.get(var_name, 0)
-                print(f"DEBUG: Set base to {base} from variable {var_name}")
             elif hasattr(current, 'NUMBER') and current.NUMBER():
                 base = float(current.NUMBER().getText())
             elif hasattr(current, 'STRING') and current.STRING():
@@ -292,9 +305,7 @@ class SynapseInterpreter(SynapseListener):
             
             # Apply subscripts in reverse order (since we collected from outer to inner)
             result = base
-            print(f"DEBUG: base={base}, subscripts={[(s[1] if len(s)>1 else '?') for s in subscripts]}, reversed={list(reversed(subscripts))}")
             for _, index in reversed(subscripts):
-                print(f"DEBUG: Applying index {index} to {result}")
                 result = result[index]
             
             return result
@@ -320,13 +331,17 @@ class SynapseInterpreter(SynapseListener):
         elif func_name in self.functions:
             func = self.functions[func_name]
             old_vars = self.variables.copy()
-            print(f"DEBUG: Calling {func_name} with params={func['params']}, args={args}")
             for param, arg in zip(func['params'], args):
                 self.variables[param] = arg
-                print(f"DEBUG: Set {param} = {arg}")
             # Execute body
-            for stmt in func['body']:
-                self.walk(stmt)
+            body_stmts = func['body']
+            if body_stmts:
+                if isinstance(body_stmts, list):
+                    for stmt in body_stmts:
+                        self.walk(stmt)
+                else:
+                    # Single statement
+                    self.walk(body_stmts)
             result = self.result
             self.variables = old_vars
             return result
@@ -354,6 +369,22 @@ def parse_and_execute(input_str):
     parser = SynapseParser(tokens)
     tree = parser.program()
     interpreter = SynapseInterpreter()
-    walker = ParseTreeWalker()
-    walker.walk(interpreter, tree)
+    
+    # First pass: collect all function definitions without executing them
+    for stmt_ctx in tree.statement():
+        if hasattr(stmt_ctx, 'funcStatement') and stmt_ctx.funcStatement():
+            # This is a function definition - extract it without walking the body
+            func_ctx = stmt_ctx.funcStatement()
+            func_name = func_ctx.ID().getText()
+            params = [p.getText() for p in func_ctx.paramList().ID()] if func_ctx.paramList() else []
+            body = func_ctx.statement() if hasattr(func_ctx, 'statement') else []
+            interpreter.functions[func_name] = {'params': params, 'body': body}
+    
+    # Second pass: execute non-function statements manually by calling interpreters walk method
+    for stmt_ctx in tree.statement():
+        if not (hasattr(stmt_ctx, 'funcStatement') and stmt_ctx.funcStatement()):
+            # This is not a function definition, execute it
+            interpreter.walk(stmt_ctx)
+    
+    print(f"DEBUG: interpreter.result = {interpreter.result}")
     return interpreter.result

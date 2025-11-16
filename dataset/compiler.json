@@ -1,0 +1,19 @@
+{
+  "file": "compiler",
+  "code": "// Self-Hosted Synapse Compiler Demo\n// Demonstrates how Synapse can compile its own code\n\n// Simple tokenizer simulation\ndef tokenize(code) {\n    let tokens = []\n    let current = 0\n    tokens\n}\n\n// Simple AST representation\ndef ast_literal(value) {\n    [\"literal\", value]\n}\n\ndef ast_var(name) {\n    [\"var\", name]\n}\n\ndef ast_binop(op, left, right) {\n    [\"binop\", op, left, right]\n}\n\n// Code generator for simple expressions\ndef codegen_expr(ast) {\n    if ast[0] == \"literal\" {\n        ast[1]\n    } else if ast[0] == \"var\" {\n        ast[1]\n    } else if ast[0] == \"binop\" {\n        let op = ast[1]\n        let left = codegen_expr(ast[2])\n        let right = codegen_expr(ast[3])\n        \"(\" + left + \" \" + op + \" \" + right + \")\"\n    } else {\n        \"unknown\"\n    }\n}\n\n// Test compilation\nlet expr_ast = ast_binop(\"+\", ast_var(\"x\"), ast_literal(42))\nlet compiled = codegen_expr(expr_ast)\n\nprint(\"AST:\", expr_ast)\nprint(\"Compiled:\", compiled)\n\n// Bootstrap: Synapse generating Synapse code\ndef generate_function(name, params, body) {\n    let code = \"def \" + name + \"(\"\n    let i = 0\n    for param in params {\n        if i > 0 {\n            code = code + \", \"\n        }\n        code = code + param\n        i = i + 1\n    }\n    code = code + \") {\\n\"\n    code = code + body + \"\\n}\"\n    code\n}\n\nlet my_func = generate_function(\"add\", [\"a\", \"b\"], \"a + b\")\nprint(\"Generated function:\", my_func)\n",
+  "baseline_profile": {
+    "total_time": 0.005343127250671387,
+    "total_mem_peak_mb": 0.0,
+    "instr_count": 0,
+    "hotspots": [],
+    "root_node": null
+  },
+  "rules_profile": {
+    "total_time": 0.0019884347915649415,
+    "total_mem_peak_mb": 0.0,
+    "instr_count": 0,
+    "hotspots": [],
+    "root_node": null
+  },
+  "speedup_rules": 2.687102073116629
+}

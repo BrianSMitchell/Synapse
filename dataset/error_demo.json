@@ -1,0 +1,19 @@
+{
+  "file": "error_demo",
+  "code": "let grid = [[1,2], [3,4]]\n\ntry {\n    let x = grid[10][10]  // Index out of range\n} catch (err) {\n    print(\"Caught error:\")\n    print(err)\n}\n\nprint(\"Continuing after error\")\n",
+  "baseline_profile": {
+    "total_time": 0.023777484893798828,
+    "total_mem_peak_mb": 0.0,
+    "instr_count": 0,
+    "hotspots": [],
+    "root_node": null
+  },
+  "rules_profile": {
+    "total_time": 0.014713549613952636,
+    "total_mem_peak_mb": 0.0,
+    "instr_count": 0,
+    "hotspots": [],
+    "root_node": null
+  },
+  "speedup_rules": 1.6160264190261062
+}

@@ -1,0 +1,347 @@
+// ============================================================================
+// SYNAPSE STANDARD LIBRARY EXAMPLES
+// ============================================================================
+// Examples demonstrating usage of synapse-math, synapse-agents, synapse-ml
+// ============================================================================
+
+// Example 1: Data Analysis with synapse-math
+// ============================================================================
+
+def example_data_analysis() {
+    import "stdlib/math.syn"
+    
+    // Create sample dataset
+    let data = [12, 15, 18, 20, 22, 25, 28, 30]
+    
+    // Compute statistics
+    let mean_val = mean(data)
+    let max_val = max(data)
+    let min_val = min(data)
+    let sum_val = sum(data)
+    
+    print("=== Data Analysis ===")
+    print("Data: " + data)
+    print("Mean: " + mean_val)
+    print("Max: " + max_val)
+    print("Min: " + min_val)
+    print("Sum: " + sum_val)
+}
+
+// Example 2: Array Operations
+// ============================================================================
+
+def example_array_operations() {
+    import "stdlib/math.syn"
+    
+    // Create arrays
+    let arr1 = ones(5)
+    let arr2 = zeros(5)
+    let arr3 = arange(1, 6, 1)
+    
+    // Element-wise operations
+    let scaled = scale(arr3, 2)
+    let added = add(arr3, arr1)
+    let reversed = reverse(arr3)
+    
+    print("=== Array Operations ===")
+    print("Original: " + arr3)
+    print("Scaled (x2): " + scaled)
+    print("Added (+1): " + added)
+    print("Reversed: " + reversed)
+}
+
+// Example 3: Linear Algebra
+// ============================================================================
+
+def example_linear_algebra() {
+    import "stdlib/math.syn"
+    
+    // Create vectors
+    let v1 = [1, 2, 3]
+    let v2 = [4, 5, 6]
+    
+    // Dot product
+    let dp = dot(v1, v2)
+    
+    // Matrix operations
+    let m1 = [[1, 2], [3, 4]]
+    let m2 = [[5, 6], [7, 8]]
+    let product = matmul(m1, m2)
+    
+    // Transpose
+    let transposed = transpose(m1)
+    
+    print("=== Linear Algebra ===")
+    print("Dot product: " + dp)
+    print("Matrix product: " + product)
+    print("Transposed: " + transposed)
+}
+
+// Example 4: Multi-Agent Coordination
+// ============================================================================
+
+def example_agent_pool() {
+    import "stdlib/agents.syn"
+    
+    // Create agent team
+    let team = create_agent_pool(3)
+    
+    // Get first agent and check properties
+    let agent = team[0]
+    let id = agent_get(agent, "id")
+    let name = agent_get(agent, "name")
+    let capacity = agent_get(agent, "capacity")
+    
+    // Submit tasks
+    let agent = submit_task(agent, 1, "process_data")
+    let agent = submit_task(agent, 2, "train_model")
+    
+    // Check load
+    let load = agent_load(agent)
+    
+    print("=== Agent Coordination ===")
+    print("Agent ID: " + id)
+    print("Agent Name: " + name)
+    print("Capacity: " + capacity)
+    print("Current Load: " + load)
+}
+
+// Example 5: Consensus Voting
+// ============================================================================
+
+def example_consensus() {
+    import "stdlib/agents.syn"
+    
+    // Agent votes on a decision
+    let votes = [1, 1, 0, 1, 0]
+    let weights = [0.8, 0.7, 0.6, 0.9, 0.5]
+    
+    // Determine consensus
+    let majority = consensus_majority(votes)
+    let weighted = consensus_weighted(votes, weights)
+    
+    print("=== Consensus ===")
+    print("Votes: " + votes)
+    print("Majority decision: " + majority)
+    print("Weighted decision: " + weighted)
+}
+
+// Example 6: Model Creation and Configuration
+// ============================================================================
+
+def example_model_creation() {
+    import "stdlib/ml.syn"
+    
+    // Create linear regression model
+    let model = create_model("linear", 5, 1)
+    
+    // Get model properties
+    let mtype = model_get(model, "type")
+    let input_dim = model_get(model, "input_dim")
+    let output_dim = model_get(model, "output_dim")
+    let lr = model_get(model, "lr")
+    
+    // Update learning rate
+    let model = model_set(model, "lr", 0.001)
+    let new_lr = model_get(model, "lr")
+    
+    print("=== Model Configuration ===")
+    print("Type: " + mtype)
+    print("Input dimension: " + input_dim)
+    print("Output dimension: " + output_dim)
+    print("Original LR: " + lr)
+    print("Updated LR: " + new_lr)
+}
+
+// Example 7: Activation Functions
+// ============================================================================
+
+def example_activations() {
+    import "stdlib/ml.syn"
+    
+    // Test different activation functions
+    let x = 0
+    let s = sigmoid(x)
+    let r1 = relu(5)
+    let r2 = relu(-5)
+    let t = tanh_approx(0)
+    
+    let logits = [1, 2, 3]
+    let probs = softmax(logits)
+    
+    print("=== Activation Functions ===")
+    print("Sigmoid(0): " + s)
+    print("ReLU(5): " + r1)
+    print("ReLU(-5): " + r2)
+    print("Tanh(0): " + t)
+    print("Softmax([1,2,3]): " + probs)
+}
+
+// Example 8: Classification Metrics
+// ============================================================================
+
+def example_metrics() {
+    import "stdlib/ml.syn"
+    
+    // True and predicted labels
+    let y_true = [1, 1, 0, 0, 1]
+    let y_pred = [0.9, 0.8, 0.2, 0.1, 0.6]
+    
+    // Compute metrics
+    let acc = accuracy(y_true, y_pred)
+    let prec = precision(y_true, y_pred)
+    let rec = recall(y_true, y_pred)
+    let f1 = f1_score(y_true, y_pred)
+    
+    print("=== Classification Metrics ===")
+    print("Accuracy: " + acc)
+    print("Precision: " + prec)
+    print("Recall: " + rec)
+    print("F1 Score: " + f1)
+}
+
+// Example 9: Data Batching
+// ============================================================================
+
+def example_batching() {
+    import "stdlib/ml.syn"
+    
+    // Create sample data
+    let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    
+    // Split into batches
+    let batch_size = 3
+    let batches = create_batches(data, batch_size)
+    
+    print("=== Data Batching ===")
+    print("Data: " + data)
+    print("Batch size: " + batch_size)
+    print("Batches: " + batches)
+}
+
+// Example 10: Combined Multi-Module Example
+// ============================================================================
+
+def example_combined() {
+    import "stdlib/math.syn"
+    import "stdlib/agents.syn"
+    import "stdlib/ml.syn"
+    
+    // Create data
+    let x = [1, 2, 3]
+    let y = [2, 4, 6]
+    
+    // Math operations
+    let mean_x = mean(x)
+    let mean_y = mean(y)
+    let scaled = scale(x, 2)
+    
+    // Create agent team
+    let agents = create_agent_pool(2)
+    
+    // Create models
+    let model = create_model("linear", 3, 1)
+    let model = init_weights(model)
+    
+    // Make prediction
+    let pred = linear_predict(model, x)
+    
+    print("=== Combined Example ===")
+    print("Input X: " + x)
+    print("Input Y: " + y)
+    print("Mean X: " + mean_x)
+    print("Mean Y: " + mean_y)
+    print("Scaled X: " + scaled)
+    print("Model prediction: " + pred)
+}
+
+// ============================================================================
+// MAIN - Run all examples
+// ============================================================================
+
+print("SYNAPSE STANDARD LIBRARY EXAMPLES")
+print("==================================")
+print("")
+
+try {
+    print("Example 1: Data Analysis")
+    example_data_analysis()
+    print("")
+} catch (e) {
+    print("Error in Example 1: " + e)
+}
+
+try {
+    print("Example 2: Array Operations")
+    example_array_operations()
+    print("")
+} catch (e) {
+    print("Error in Example 2: " + e)
+}
+
+try {
+    print("Example 3: Linear Algebra")
+    example_linear_algebra()
+    print("")
+} catch (e) {
+    print("Error in Example 3: " + e)
+}
+
+try {
+    print("Example 4: Agent Coordination")
+    example_agent_pool()
+    print("")
+} catch (e) {
+    print("Error in Example 4: " + e)
+}
+
+try {
+    print("Example 5: Consensus Voting")
+    example_consensus()
+    print("")
+} catch (e) {
+    print("Error in Example 5: " + e)
+}
+
+try {
+    print("Example 6: Model Creation")
+    example_model_creation()
+    print("")
+} catch (e) {
+    print("Error in Example 6: " + e)
+}
+
+try {
+    print("Example 7: Activation Functions")
+    example_activations()
+    print("")
+} catch (e) {
+    print("Error in Example 7: " + e)
+}
+
+try {
+    print("Example 8: Classification Metrics")
+    example_metrics()
+    print("")
+} catch (e) {
+    print("Error in Example 8: " + e)
+}
+
+try {
+    print("Example 9: Data Batching")
+    example_batching()
+    print("")
+} catch (e) {
+    print("Error in Example 9: " + e)
+}
+
+try {
+    print("Example 10: Combined Example")
+    example_combined()
+    print("")
+} catch (e) {
+    print("Error in Example 10: " + e)
+}
+
+print("==================================")
+print("All examples completed!")

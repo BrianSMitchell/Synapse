@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ml - Synapse API</title>
+    <meta name="description" content="SYNAPSE-ML: Standard Library Module for Machine Learning
+ML helpers for classification, regression, and probabilistic modeling
+Features: model creation, training, inference, evaluation metrics
+Version: 1.0
+MODEL STRUCTURE AND INITIALIZATION">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class='container'>
+<h1>ml</h1>
+<div class='module-description'>SYNAPSE-ML: Standard Library Module for Machine Learning
+ML helpers for classification, regression, and probabilistic modeling
+Features: model creation, training, inference, evaluation metrics
+Version: 1.0
+MODEL STRUCTURE AND INITIALIZATION</div>
+<p class='function-count'>20 functions</p>
+<div class='function'>
+<h3><code>create_model()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model_type</code></li>
+<li><code>input_dim</code></li>
+<li><code>output_dim</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>model_get()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+<li><code>key</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>model_set()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+<li><code>key</code></li>
+<li><code>value</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>init_weights()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>linear_predict()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>linear_mse_loss()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>sigmoid()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>logistic_predict()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>logistic_loss()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>relu()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>relu_derivative()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>tanh_approx()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>x</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>softmax()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>logits</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>accuracy()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>precision()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>recall()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>f1_score()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>y_true</code></li>
+<li><code>y_pred</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>gradient_descent_step()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>model</code></li>
+<li><code>x_batch</code></li>
+<li><code>y_batch</code></li>
+<li><code>loss_fn</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>create_batches()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>data</code></li>
+<li><code>batch_size</code></li>
+</ul>
+</div>
+</div>
+<div class='function'>
+<h3><code>shuffle_data()</code></h3>
+<div class='parameters'>
+<strong>Parameters:</strong>
+<ul>
+<li><code>data</code></li>
+</ul>
+</div>
+</div>
+<p class='back-link'><a href='index.html'>← Back to index</a></p>
+</div>
+
+</body>
+</html>

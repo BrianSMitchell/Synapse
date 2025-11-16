@@ -1,0 +1,8 @@
+def print_grid(grid) {
+    for row in grid {
+        print(row)
+    }
+}
+
+let grid = [[1, 2], [3, 4]]
+print_grid(grid)

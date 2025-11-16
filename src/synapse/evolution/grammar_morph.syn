@@ -1,0 +1,176 @@
+// grammar_morph.syn - Synapse module for self-morphing ANTLR4 grammars
+// Usage: let morpher = load("grammar_morph.syn")
+// morpher.add_keyword(grammar_text, "async")
+// let new_grammar = morpher.output()
+
+fun parse_grammar(grammar_text: string) -> dict {
+  let lines = split_lines(grammar_text)
+  let lexer_rules = []
+  let parser_rules = []
+  let keywords = []
+  
+  for line in lines {
+    let trimmed = trim(line)
+    if starts_with(trimmed, "'lexer rule'") or (ends_with(trimmed, ":") and not contains(trimmed, ";")) {
+      lexer_rules.append(trimmed)
+    } else if starts_with(trimmed, "'ID' + ':'") and not contains(trimmed, "lexer") {
+      parser_rules.append(trimmed)
+    } else if contains(trimmed, ": '") {
+      keywords.append(extract_keyword(trimmed
+  }
+  
+  return {
+    lexer_rules,
+    parser_rules,
+    keywords,
+    full_text: grammar_text
+  }
+}
+
+fun add_keyword(grammar_dict: dict, keyword: string) -> dict {
+  let lexer_start = find_lexer_start(grammar_dict.full_text)
+  let lexer_end = find_lexer_end(grammar_dict.full_text)
+  let new_rule = keyword.upper() + ": '" + keyword + "';"
+  let new_text = grammar_dict.full_text[:lexer_end] + new_rule + "\n" + grammar_dict.full_text[lexer_end:]
+  parse_grammar(new_text)
+}
+
+fun add_parser_rule(grammar_dict: dict, rule_name: string, rule_body: string) -> dict {
+  let parser_start = find_parser_start(grammar_dict.full_text)
+  let new_rule = rule_name + ": " + rule_body + " ;"
+  let new_text = grammar_dict.full_text[:parser_start] + new_rule + "\n" + grammar_dict.full_text[parser_start:]
+  parse_grammar(new_text)
+}
+
+fun generate_diff(old_text: string, new_text: string) -> string {
+  let old_lines = split_lines(old_text)
+  let new_lines = split_lines(new_text)
+  let diff = "Diff:\n"
+  for i in range(min(len(old_lines), len(new_lines))) {
+    if old_lines[i] != new_lines[i] {
+      diff += "- " + old_lines[i] + "\n+ " + new_lines[i] + "\n"
+    }
+  }
+  if len(old_lines) > len(new_lines) {
+    diff += "- Extra old lines\n"
+  } else if len(new_lines) > len(old_lines) {
+    diff += "+ Extra new lines\n"
+  }
+  diff
+}
+
+fun split_lines(text: string) -> list {
+  let lines = []
+  let current = ""
+  for char in text {
+    if char == "\n" {
+      lines.append(current)
+      current = ""
+    } else {
+      current += char
+    }
+  }
+  if current != "" {
+    lines.append(current)
+  }
+  lines
+}
+
+fun trim(s: string) -> string {
+  let start = 0
+  let end = len(s)
+  while start < end and (s[start] == " " or s[start] == "\t") {
+    start += 1
+  }
+  while end > start and (s[end-1] == " " or s[end-1] == "\t") {
+    end -= 1
+  }
+  s[start:end]
+}
+
+fun starts_with(s: string, prefix: string) -> bool {
+  len(prefix) <= len(s) and s[:len(prefix)] == prefix
+}
+
+fun ends_with(s: string, suffix: string) -> bool {
+  len(suffix) <= len(s) and s[-len(suffix):] == suffix
+}
+
+fun contains(s: string, substr: string) -> bool {
+  for i in range(len(s) - len(substr) + 1) {
+    if s[i:i+len(substr)] == substr {
+      return true
+    }
+  }
+  false
+}
+
+fun find_lexer_start(text: string) -> int {
+  for i in range(len(text)) {
+    if text[i:i+10] == "lexer rule" {
+      return i
+    }
+  }
+  0
+}
+
+fun find_lexer_end(text: string) -> int {
+  // Find end of lexer rules, start of parser
+  let lexer_end = len(text)
+  for i in range(100, len(text)) {
+    if text[i:i+10] == "program:" {
+      lexer_end = i
+      break
+    }
+  }
+  lexer_end
+}
+
+fun find_parser_start(text: string) -> int {
+  for i in range(len(text)) {
+    if text[i:i+8] == "program:" {
+      return i
+    }
+  }
+  len(text)
+}
+
+fun extract_keyword(line: string) -> string {
+  // Extract between : ' and '
+  let colon_quote = index_of(line, ": '")
+  if colon_quote == -1 {
+    return ""
+  }
+  let start = colon_quote + 3
+  let quote_end = index_of(line[start:], "'")
+  if quote_end == -1 {
+    return ""
+  }
+  line[start:start+quote_end]
+}
+
+fun index_of(s: string, substr: string) -> int {
+  for i in range(len(s) - len(substr) + 1) {
+    if s[i:i+len(substr)] == substr {
+      return i
+    }
+  }
+  -1
+}
+
+// Test mutations
+fun test_morph() {
+  let original_text = "grammar Synapse;\n\nlexer rule ID: [a-zA-Z_][a-zA-Z0-9_]* ;"
+  let original = parse_grammar(original_text)
+  let mutated = add_keyword(original, "async")
+  print(generate_diff(original_text, mutated.full_text))
+}
+
+// Export functions
+morpher = {
+  parse_grammar,
+  add_keyword,
+  add_parser_rule,
+  generate_diff,
+  test_morph
+}

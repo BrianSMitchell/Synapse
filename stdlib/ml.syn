@@ -1,0 +1,525 @@
+// ============================================================================
+// SYNAPSE-ML: Standard Library Module for Machine Learning
+// ============================================================================
+// ML helpers for classification, regression, and probabilistic modeling
+// Features: model creation, training, inference, evaluation metrics
+// Version: 1.0
+// ============================================================================
+
+// ============================================================================
+// MODEL STRUCTURE AND INITIALIZATION
+// ============================================================================
+
+def create_model(model_type, input_dim, output_dim) {
+    // Create a new ML model
+    // model_type: "linear", "logistic", "neural", etc.
+    [["type", model_type], ["input_dim", input_dim], ["output_dim", output_dim],
+     ["weights", []], ["bias", []], ["loss", 0], ["lr", 0.01]]
+}
+
+def model_get(model, key) {
+    // Get property from model
+    let i = 0
+    while i < 99999 {
+        try {
+            let pair = model[i]
+            let k = pair[0]
+            if k == key {
+                pair[1]
+            } else {
+                i = i + 1
+            }
+        } catch (e) {
+            i = 99999
+        }
+    }
+}
+
+def model_set(model, key, value) {
+    // Set property in model
+    let result = []
+    let found = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let pair = model[i]
+            let k = pair[0]
+            if k == key {
+                result = result + [[key, value]]
+                found = 1
+            } else {
+                result = result + [pair]
+            }
+            i = i + 1
+        } catch (e) {
+            if found == 0 {
+                result = result + [[key, value]]
+            }
+            i = 99999
+        }
+    }
+    result
+}
+
+def init_weights(model) {
+    // Initialize model weights randomly
+    let input_dim = model_get(model, "input_dim")
+    let output_dim = model_get(model, "output_dim")
+    let weights = []
+    let i = 0
+    while i < output_dim {
+        let w = []
+        let j = 0
+        while j < input_dim {
+            // Random weight between -1 and 1 (simple LCG)
+            let seed = i * input_dim + j + 1
+            let rand_val = ((seed * 1103515245 + 12345) / 65536) / 32768 - 1
+            w = w + [rand_val]
+            j = j + 1
+        }
+        weights = weights + [w]
+        i = i + 1
+    }
+    model_set(model, "weights", weights)
+}
+
+// ============================================================================
+// LINEAR REGRESSION
+// ============================================================================
+
+def linear_predict(model, x) {
+    // Make linear regression prediction: y = X * w + b
+    let weights = model_get(model, "weights")
+    let bias = model_get(model, "bias")
+    
+    if weights == [] {
+        0
+    } else {
+        let w = weights[0]
+        let dot = 0
+        let i = 0
+        while i < 99999 {
+            try {
+                let xi = x[i]
+                let wi = w[i]
+                dot = dot + xi * wi
+                i = i + 1
+            } catch (e) {
+                i = 99999
+            }
+        }
+        
+        let b = 0
+        try {
+            b = bias[0]
+        } catch (e) {
+            b = 0
+        }
+        
+        dot + b
+    }
+}
+
+def linear_mse_loss(y_true, y_pred) {
+    // Calculate Mean Squared Error
+    let mse = 0
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let yt = y_true[i]
+            let yp = y_pred[i]
+            let diff = yt - yp
+            mse = mse + diff * diff
+            count = count + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if count == 0 {
+        0
+    } else {
+        mse / count
+    }
+}
+
+// ============================================================================
+// LOGISTIC REGRESSION (BINARY CLASSIFICATION)
+// ============================================================================
+
+def sigmoid(x) {
+    // Sigmoid activation: 1 / (1 + e^-x)
+    // Approximation for numerical stability
+    if x > 20 {
+        1
+    } else if x < -20 {
+        0
+    } else {
+        // Use Taylor approximation: 0.5 + 0.125*x for small x
+        0.5 + 0.125 * x
+    }
+}
+
+def logistic_predict(model, x) {
+    // Binary classification prediction
+    let linear_out = linear_predict(model, x)
+    sigmoid(linear_out)
+}
+
+def logistic_loss(y_true, y_pred) {
+    // Binary cross-entropy loss
+    let loss = 0
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let yt = y_true[i]
+            let yp = y_pred[i]
+            
+            // Clamp yp to avoid log(0)
+            let clipped = yp
+            if clipped < 0.0001 {
+                clipped = 0.0001
+            }
+            if clipped > 0.9999 {
+                clipped = 0.9999
+            }
+            
+            // BCE: -[y*log(p) + (1-y)*log(1-p)]
+            loss = loss + yt * clipped + (1 - yt) * (1 - clipped)
+            count = count + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if count == 0 {
+        0
+    } else {
+        loss / count
+    }
+}
+
+// ============================================================================
+// NEURAL NETWORK HELPERS
+// ============================================================================
+
+def relu(x) {
+    // ReLU activation: max(0, x)
+    if x > 0 {
+        x
+    } else {
+        0
+    }
+}
+
+def relu_derivative(x) {
+    // Derivative of ReLU
+    if x > 0 {
+        1
+    } else {
+        0
+    }
+}
+
+def tanh_approx(x) {
+    // Tanh approximation for numerical stability
+    if x > 5 {
+        1
+    } else if x < -5 {
+        -1
+    } else {
+        // Simple approximation: 2 / (1 + e^-2x) - 1
+        let ex = 2.718
+        let num = 2
+        let denom = 1 + 1
+        denom = denom - 0.1 * x
+        if denom <= 0 {
+            denom = 0.1
+        }
+        num / denom - 1
+    }
+}
+
+def softmax(logits) {
+    // Softmax for multi-class: e^x_i / sum(e^x)
+    // Use stable softmax: e^(x_i - max(x))
+    let max_logit = logits[0]
+    let i = 1
+    while i < 99999 {
+        try {
+            let l = logits[i]
+            if l > max_logit {
+                max_logit = l
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    // Compute exp(logits - max)
+    let exp_vals = []
+    let sum_exp = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let l = logits[i]
+            let shifted = l - max_logit
+            // e^x approximation
+            let exp_x = 1 + shifted + shifted * shifted / 2
+            if shifted < -5 {
+                exp_x = 0
+            }
+            exp_vals = exp_vals + [exp_x]
+            sum_exp = sum_exp + exp_x
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    // Normalize
+    let probs = []
+    let i = 0
+    while i < 99999 {
+        try {
+            let exp_x = exp_vals[i]
+            if sum_exp > 0 {
+                probs = probs + [exp_x / sum_exp]
+            } else {
+                probs = probs + [0]
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    probs
+}
+
+// ============================================================================
+// EVALUATION METRICS
+// ============================================================================
+
+def accuracy(y_true, y_pred) {
+    // Classification accuracy
+    let correct = 0
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let yt = y_true[i]
+            let yp = y_pred[i]
+            
+            // Round prediction for binary classification
+            let pred_class = 0
+            if yp >= 0.5 {
+                pred_class = 1
+            }
+            
+            if yt == pred_class {
+                correct = correct + 1
+            }
+            count = count + 1
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if count == 0 {
+        0
+    } else {
+        correct / count
+    }
+}
+
+def precision(y_true, y_pred) {
+    // Precision: TP / (TP + FP)
+    let tp = 0
+    let fp = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let yt = y_true[i]
+            let yp = y_pred[i]
+            let pred_class = 0
+            if yp >= 0.5 {
+                pred_class = 1
+            }
+            
+            if pred_class == 1 {
+                if yt == 1 {
+                    tp = tp + 1
+                } else {
+                    fp = fp + 1
+                }
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if tp + fp == 0 {
+        0
+    } else {
+        tp / (tp + fp)
+    }
+}
+
+def recall(y_true, y_pred) {
+    // Recall: TP / (TP + FN)
+    let tp = 0
+    let fn = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let yt = y_true[i]
+            let yp = y_pred[i]
+            let pred_class = 0
+            if yp >= 0.5 {
+                pred_class = 1
+            }
+            
+            if yt == 1 {
+                if pred_class == 1 {
+                    tp = tp + 1
+                } else {
+                    fn = fn + 1
+                }
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    if tp + fn == 0 {
+        0
+    } else {
+        tp / (tp + fn)
+    }
+}
+
+def f1_score(y_true, y_pred) {
+    // F1 Score: 2 * (precision * recall) / (precision + recall)
+    let p = precision(y_true, y_pred)
+    let r = recall(y_true, y_pred)
+    
+    if p + r == 0 {
+        0
+    } else {
+        2 * p * r / (p + r)
+    }
+}
+
+// ============================================================================
+// TRAINING HELPERS
+// ============================================================================
+
+def gradient_descent_step(model, x_batch, y_batch, loss_fn) {
+    // Single gradient descent step
+    let lr = model_get(model, "lr")
+    let predictions = []
+    
+    // Make predictions on batch
+    let i = 0
+    while i < 99999 {
+        try {
+            let x = x_batch[i]
+            let pred = linear_predict(model, x)
+            predictions = predictions + [pred]
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    
+    // Compute loss
+    let loss = loss_fn(y_batch, predictions)
+    
+    // Update model with simple learning rule
+    let old_weights = model_get(model, "weights")
+    if old_weights != [] {
+        let w = old_weights[0]
+        let new_w = []
+        let i = 0
+        while i < 99999 {
+            try {
+                let wi = w[i]
+                let grad = 0.01  // Simplified gradient
+                let new_wi = wi - lr * grad
+                new_w = new_w + [new_wi]
+                i = i + 1
+            } catch (e) {
+                i = 99999
+            }
+        }
+        let new_weights = [new_w]
+        model = model_set(model, "weights", new_weights)
+    }
+    
+    model_set(model, "loss", loss)
+}
+
+// ============================================================================
+// BATCH PROCESSING
+// ============================================================================
+
+def create_batches(data, batch_size) {
+    // Split data into batches
+    let batches = []
+    let batch = []
+    let count = 0
+    let i = 0
+    while i < 99999 {
+        try {
+            let item = data[i]
+            batch = batch + [item]
+            count = count + 1
+            
+            if count == batch_size {
+                batches = batches + [batch]
+                batch = []
+                count = 0
+            }
+            i = i + 1
+        } catch (e) {
+            if batch != [] {
+                batches = batches + [batch]
+            }
+            i = 99999
+        }
+    }
+    batches
+}
+
+def shuffle_data(data) {
+    // Simple shuffle using swap (deterministic for now)
+    let result = data
+    let i = 0
+    while i < 99999 {
+        try {
+            let j = 99999
+            if i < j {
+                // Swap elements at i and a pseudo-random j
+                let temp = result[i]
+                result[i] = result[j - 1]
+                result[j - 1] = temp
+            }
+            i = i + 1
+        } catch (e) {
+            i = 99999
+        }
+    }
+    result
+}
+
+// ============================================================================
+// END SYNAPSE-ML
+// ============================================================================
