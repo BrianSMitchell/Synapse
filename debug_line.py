@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+import sys
+sys.path.insert(0, 'src')
+
+code = '''
+def count_neighbors(grid, x, y) {
+    let count = 0
+    let dxs = [-1, 0, 1]
+    for dx in dxs {
+        let dys = [-1, 0, 1]
+        for dy in dys {
+            if dx == 0 and dy == 0 {
+            } else {
+                let nx = x + dx
+                let ny = y + dy
+                if nx >= 0 and nx < 5 and ny >= 0 and ny < 5 {
+                    count = count + grid[nx][ny]
+                }
+            }
+        }
+    }
+    count
+}
+
+def update_grid(grid) {
+    let new_grid = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
+    let indices = [0,1,2,3,4]
+    for i in indices {
+        for j in indices {
+            let neighbors = count_neighbors(grid, i, j)
+            if grid[i][j] == 1 {
+                if neighbors == 2 or neighbors == 3 {
+                    new_grid[i][j] = 1
+                }
+            } else {
+                if neighbors == 3 {
+                    new_grid[i][j] = 1
+                }
+            }
+        }
+    }
+    new_grid
+}
+
+def print_grid(grid) {
+    for row in grid {
+        print(row)
+    }
+}
+
+let grid = [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [0,1,1,1,0], [0,0,0,0,0]]
+
+try {
+    print("Initial grid:")
+    print_grid(grid)
+
+    let new_grid = update_grid(grid)
+
+    print("Next generation:")
+    print_grid(new_grid)
+} catch (err) {
+    print("Error in Game of Life:")
+    print(err)
+}
+'''
+
+from synapse.parser.parser import parse_and_execute
+try:
+    result = parse_and_execute(code)
+except Exception as e:
+    import traceback
+    traceback.print_exc()

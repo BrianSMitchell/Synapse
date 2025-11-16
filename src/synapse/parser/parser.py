@@ -201,6 +201,7 @@ class SynapseInterpreter(SynapseListener):
     def eval_primary(self, primary_ctx):
         """Evaluate a primary expression"""
         text = primary_ctx.getText()
+        print(f"DEBUG eval_primary called with text='{text[:50]}'...")
         
         # ID (variable reference)
         if primary_ctx.ID():
@@ -245,14 +246,58 @@ class SynapseInterpreter(SynapseListener):
                 return self.eval_expr(primary_ctx.expr())
         
         # Array access: primary[expr]
-        elif '[' in text and ']' in text and hasattr(primary_ctx, 'primary'):
-            array_expr = primary_ctx.primary()
-            if array_expr:
-                array = self.eval_primary(array_expr)
-                expr = primary_ctx.expr()
+        # Handle nested subscripts like grid[x][y] by collecting all indices
+        elif '[' in text and ']' in text and hasattr(primary_ctx, 'primary') and primary_ctx.primary():
+            # Collect all subscripts from nested structure
+            subscripts = []  # List of (context, index) pairs
+            current = primary_ctx
+            
+            # Walk the subscript chain to collect all indices
+            # Continue while current has a .primary() method and it returns non-None
+            while hasattr(current, 'primary') and current.primary() is not None:
+                expr = current.expr()
                 if expr:
                     index = int(self.eval_expr(expr))
-                    return array[index]
+                    subscripts.append((current, index))
+                current = current.primary()
+            
+            # Now current is the base (no more subscripts)
+            # Evaluate it based on its type
+            base = None
+            current_text = current.getText() if hasattr(current, 'getText') else str(current)
+            has_id = hasattr(current, 'ID')
+            id_result = current.ID() if has_id else None
+            # DEBUG
+            print(f"DEBUG eval_primary: current_text='{current_text}', has_id={has_id}, id_result={id_result}, bool(id_result)={bool(id_result) if id_result else 'None'}")
+            if has_id and id_result:
+                print(f"DEBUG: Entered ID branch")
+                var_name = id_result.getText()
+                base = self.variables.get(var_name, 0)
+                print(f"DEBUG: Set base to {base} from variable {var_name}")
+            elif hasattr(current, 'NUMBER') and current.NUMBER():
+                base = float(current.NUMBER().getText())
+            elif hasattr(current, 'STRING') and current.STRING():
+                base = current.STRING().getText().strip('"')
+            elif hasattr(current, 'exprList') and current.exprList() and text.startswith('['):
+                # List literal
+                elements = [self.eval_expr(e) for e in current.exprList().expr()]
+                base = elements
+            else:
+                # Fallback: try to evaluate it
+                base = self.eval_primary(current)
+            
+            # DEBUG: commented out for now
+            # if base == 0 and current_text != '0':
+            #     raise RuntimeError(f"base=0 but current_text='{current_text}', has_id={has_id}, id_result={id_result}, subscripts={subscripts}")
+            
+            # Apply subscripts in reverse order (since we collected from outer to inner)
+            result = base
+            print(f"DEBUG: base={base}, subscripts={[(s[1] if len(s)>1 else '?') for s in subscripts]}, reversed={list(reversed(subscripts))}")
+            for _, index in reversed(subscripts):
+                print(f"DEBUG: Applying index {index} to {result}")
+                result = result[index]
+            
+            return result
         
         return 0
 
@@ -275,8 +320,10 @@ class SynapseInterpreter(SynapseListener):
         elif func_name in self.functions:
             func = self.functions[func_name]
             old_vars = self.variables.copy()
+            print(f"DEBUG: Calling {func_name} with params={func['params']}, args={args}")
             for param, arg in zip(func['params'], args):
                 self.variables[param] = arg
+                print(f"DEBUG: Set {param} = {arg}")
             # Execute body
             for stmt in func['body']:
                 self.walk(stmt)
